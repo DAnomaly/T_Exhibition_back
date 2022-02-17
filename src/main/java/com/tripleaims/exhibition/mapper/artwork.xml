@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.tripleaims.exhibition.dao.ArtworkDAO">
+	
+	<resultMap type="com.tripleaims.exhibition.dto.ArtworkDTO" id="artworkMap">
+		<result property="artworkNo" column="ARTWORK_NO"/>
+		<result property="title" column="TITLE"/>
+		<result property="artistNo" column="ARTIST_NO"/>
+		<result property="artistNameKor" column="ARTIST_NAME_KOR"/>
+		<result property="artistNameEng" column="ARTIST_NAME_ENG"/>
+		<result property="categoryNo" column="CATEGORY_NO"/>
+		<result property="categoryName" column="CATEGORY_NAME"/>
+		<result property="media" column="MEDIA"/>
+		<result property="explain" column="EXPLAIN"/>
+		<result property="artworkDate" column="ARTWORK_DATE"/>
+		<result property="appraiseNo" column="APPRAISE_NO"/>
+		<result property="appraiseName" column="APPRAISE_NAME"/>
+		<result property="appraiseComment" column="APPRAISE_COMMENT"/>
+		<result property="appraiseValue" column="APPRAISE_VALUE"/>
+		<result property="sellValue" column="SELL_VALUE"/>
+		<result property="orderYn" column="ORDER_YN"/>
+		<result property="orderNo" column="ORDER_NO"/>
+		<result property="showYn" column="SHOW_YN"/>
+		<result property="deleteYn" column="DELETE_YN"/>
+		<result property="regDate" column="REG_DATE"/>
+		<result property="editDate" column="EDIT_DATE"/>
+		<result property="hit" column="HIT"/>
+	</resultMap>
+	
+	<select id="selectListArtwork" resultMap="artworkMap" resultType="com.tripleaims.exhibition.dto.ArtworkDTO">
+		SELECT ARTWORK_NO, TITLE, ARTIST_NAME_KOR, ARTIST_NAME_ENG, CATEGORY_NAME, EXPLAIN, APPRAISE_COMMENT, STORAGE_YN, HIT, REG_DATE, EDIT_DATE FROM ARTWORK_VIEW ORDER BY REG_DATE 
+	</select>
+	
+</mapper>
