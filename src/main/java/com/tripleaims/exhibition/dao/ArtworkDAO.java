@@ -6,7 +6,7 @@ import com.tripleaims.exhibition.dto.ArtworkDTO;
 
 public interface ArtworkDAO {
 
-	public List<ArtworkDTO> selectListArtwork();
+	public List<ArtworkDTO> selectListArtwork();  
 	
 	
 }
