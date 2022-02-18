@@ -13,7 +13,14 @@ public class SecurityUtil {
 	}
 	
 	public String encodePassword(String password) {
-		return passwordEncoder.encode(password);
+		if(password == null || password.isEmpty())
+			return "";
+		else
+			return passwordEncoder.encode(password);
+	}
+	
+	public boolean isSamePassword(String rawPassword, String dbPassword) {
+		return passwordEncoder.matches(rawPassword, dbPassword);
 	}
 	
 }
