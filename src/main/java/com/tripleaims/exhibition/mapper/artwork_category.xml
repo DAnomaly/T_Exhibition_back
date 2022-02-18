@@ -5,14 +5,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="com.tripleaims.exhibition.dao.ArtworkCategoryDAO">
 	
-	<resultMap type="com.tripleaims.exhibition.dto.ArtworkCategoryDTO" id="artworkCategoryMap">
-		<result property="categoryNo" column="CATEGORY_NO"/>
-		<result property="name" column="NAME"/>
-		<result property="deleteYn" column="DELETE_YN"/>
-		<result property="regDate" column="REG_DATE"/>
-	</resultMap>
-	
-	<select id="selectListArtworkCategory" resultMap="artworkCategoryMap" resultType="com.tripleaims.exhibition.dto.ArtworkCategoryDTO">
+	<select id="selectAllArtworkCategory" resultType="ArtworkCategoryDTO">
 		 SELECT CATEGORY_NO, NAME, DELETE_YN, REG_DATE FROM ARTWORK_CATEGORY ORDER BY CATEGORY_NO
 	</select>
 	
