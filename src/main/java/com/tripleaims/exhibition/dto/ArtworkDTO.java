@@ -23,6 +23,10 @@ public class ArtworkDTO {
 	private String media;
 	private String explain;
 	private Date artworkDate;
+	private String mainImageNo;
+	private String mainImageName;
+	private String mainThum1Name;
+	private String mainThum2Name;
 	private String appraiseNo;
 	private String appraiseName;
 	private String appraiseComment;
