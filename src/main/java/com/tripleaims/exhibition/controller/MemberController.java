@@ -14,7 +14,7 @@ import com.tripleaims.exhibition.service.MemberService;
 import lombok.AllArgsConstructor;
 
 @RestController
-@RequestMapping("artwork")
+@RequestMapping("member")
 @AllArgsConstructor
 @CrossOrigin("*")
 public class MemberController {
