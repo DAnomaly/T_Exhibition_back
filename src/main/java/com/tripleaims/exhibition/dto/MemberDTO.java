@@ -11,7 +11,6 @@ import lombok.ToString;
 @Setter
 @ToString
 @AllArgsConstructor
-
 public class MemberDTO {
 
 	private String memberno;
@@ -21,11 +20,12 @@ public class MemberDTO {
 	private String phone;
 	private String email;
 	private String address1;
+	private Date birthday;
 	private String address2;
-	private String mvpyn;
-	private String manageryn;
-	private String deleteyn;
-	private Date regdate;
-	private Date editdate;
+	private String mvpYn;
+	private String managerYn;
+	private String deleteYn;
+	private Date regDate;
+	private Date editDate;
 	
 }

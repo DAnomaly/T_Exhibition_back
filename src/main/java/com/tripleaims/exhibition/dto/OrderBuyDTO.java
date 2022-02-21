@@ -31,7 +31,7 @@ public class OrderBuyDTO {
 	private String name;
 	private String phone;
 	private String email;
-	private String price;
+	private long price;
 	private String status;
 	private Date requiredDate;
 	private Date shippedDate;
