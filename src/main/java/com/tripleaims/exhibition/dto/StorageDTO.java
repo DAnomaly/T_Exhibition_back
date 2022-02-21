@@ -11,20 +11,19 @@ import lombok.ToString;
 @Setter
 @ToString
 @AllArgsConstructor
-public class MemberDTO {
+public class StorageDTO {
 
-	private String memberno;
-	private String id;
-	private String pw;
-	private String name;
-	private String phone;
-	private String email;
+	private String storageNo;
+	private String placeStorageNo;
 	private String address1;
-	private Date birthday;
 	private String address2;
-	private String mvpYn;
-	private String managerYn;
-	private String deleteYn;
+	private String locationNo;
+	private String storageYn;
+	private String artworkNo;
+	private String artworkTitle;
+	private String artistNo;
+	private String artistNameKor;
+	private String artistNameEng;
 	private Date regDate;
 	private Date editDate;
 	

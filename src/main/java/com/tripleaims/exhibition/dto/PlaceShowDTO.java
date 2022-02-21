@@ -7,23 +7,17 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+
 @Getter
 @Setter
 @ToString
 @AllArgsConstructor
-public class MemberDTO {
+public class PlaceShowDTO {
 
-	private String memberno;
-	private String id;
-	private String pw;
+	private String showPlaceNo;
 	private String name;
-	private String phone;
-	private String email;
 	private String address1;
-	private Date birthday;
 	private String address2;
-	private String mvpYn;
-	private String managerYn;
 	private String deleteYn;
 	private Date regDate;
 	private Date editDate;
