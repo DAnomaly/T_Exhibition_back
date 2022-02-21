@@ -1,6 +1,9 @@
 package com.tripleaims.exhibition.controller;
 
+import java.util.Map;
+
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,6 +14,7 @@ import com.tripleaims.exhibition.service.MemberService;
 import lombok.AllArgsConstructor;
 
 @RestController
+@RequestMapping("artwork")
 @AllArgsConstructor
 @CrossOrigin("*")
 public class MemberController {
@@ -23,13 +27,18 @@ public class MemberController {
 		System.err.println(id+ "/" + pw);
 		System.out.println("MemberController login()");		
 		
-		MemberDTO dto = service.login(new MemberDTO(null, id, pw, null, null, null, null, null, null, null, null, null, null));
+		MemberDTO dto = service.login(new MemberDTO(null, id, pw, null, null, null, null, null, null, null, null, null, null, null));
 		System.out.println("로그인 정보:" + dto.toString() );
 		
 		return dto;
 	}
 	
-
+	
+	@PostMapping("adminLogin.do")
+	public Map<String, Object> adminLogin(MemberDTO memberDTO) {
+		
+		return null;
+	}
 	
 	
 	

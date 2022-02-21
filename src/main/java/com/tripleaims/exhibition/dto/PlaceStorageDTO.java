@@ -11,19 +11,13 @@ import lombok.ToString;
 @Setter
 @ToString
 @AllArgsConstructor
-public class MemberDTO {
+public class PlaceStorageDTO {
 
-	private String memberno;
-	private String id;
-	private String pw;
+	private String placeStorageNo;
 	private String name;
-	private String phone;
-	private String email;
 	private String address1;
-	private Date birthday;
 	private String address2;
-	private String mvpYn;
-	private String managerYn;
+	private String maxArtwork;
 	private String deleteYn;
 	private Date regDate;
 	private Date editDate;
