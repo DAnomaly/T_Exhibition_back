@@ -20,6 +20,6 @@ public class MemberService {
 		return mem;
 	}
 	
-	
+
 	
 }

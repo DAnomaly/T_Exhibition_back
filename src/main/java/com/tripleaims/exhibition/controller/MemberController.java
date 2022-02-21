@@ -29,8 +29,7 @@ public class MemberController {
 		return dto;
 	}
 	
-	
-	
+
 	
 	
 	
