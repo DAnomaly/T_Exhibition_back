@@ -11,7 +11,7 @@ public interface MemberDAO {
 
 	public MemberDTO login(MemberDTO dto);
 	
-	
+	public MemberDTO selectOneManager(MemberDTO dto);
 	
 	
 	
