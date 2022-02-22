@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.tripleaims.exhibition.dto.MemberDTO;
 import com.tripleaims.exhibition.service.MemberService;
+import com.tripleaims.exhibition.util.SecurityUtil;
 
 import lombok.AllArgsConstructor;
 
@@ -20,6 +21,7 @@ import lombok.AllArgsConstructor;
 public class MemberController {
 
 	MemberService service;
+	SecurityUtil securityUtil;
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	private MemberDTO login(String id, String pw) {
@@ -36,11 +38,8 @@ public class MemberController {
 	
 	@PostMapping("adminLogin.do")
 	public Map<String, Object> adminLogin(MemberDTO memberDTO) {
-		
-		return null;
+		return service.loginAdmin(memberDTO);
 	}
-	
-	
 	
 	
 }
