@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.tripleaims.exhibition.dao.ArtistDAO">
+	
+	<select id="countArtists" parameterType="java.lang.String" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM ARTIST WHERE ARTIST_NO LIKE CONCAT(#{param},'*')
+	</select>
+	
+	<select id="selectListArtists" parameterType="ArtistDTO" resultType="ArtistDTO">
+		SELECT * FROM ARTIST_VIEW
+		<where>
+			<if test="nameKor">
+				NAME_KOR LIKE CONCAT('*',#{nameKor},'*')
+			</if>
+			<if test="nameEng">
+				AND NAME_ENG LIKE CONCAT('*',#{nameEng},'*') 
+			</if>
+			<if test="deleteYn != null">
+				AND DELETE_YN = #{deleteYn}
+			</if>
+		</where>
+		ORDER BY REG_DATE DESC
+	</select>
+	
+	
+</mapper>
