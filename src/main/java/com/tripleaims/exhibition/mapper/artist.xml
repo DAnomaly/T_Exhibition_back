@@ -13,10 +13,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT * FROM ARTIST
 		<where>
 			<if test="nameKor != null and nameKor != ''">
-				NAME_KOR LIKE CONCAT('*',#{nameKor},'*')
+				NAME_KOR LIKE CONCAT('%',#{nameKor},'%')
 			</if>
 			<if test="nameEng != null and nameEng != ''">
-				AND NAME_ENG LIKE CONCAT('*',#{nameEng},'*') 
+				OR NAME_ENG LIKE CONCAT('%',#{nameEng},'%') 
 			</if>
 			<if test="deleteYn != null and deleteYn != ''">
 				AND DELETE_YN = #{deleteYn}
