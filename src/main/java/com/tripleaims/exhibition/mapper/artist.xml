@@ -25,5 +25,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		ORDER BY REG_DATE DESC
 	</select>
 	
+	<insert id="insertArtist" parameterType="ArtistDTO">
+		<selectKey keyProperty="artistNo" resultType="java.lang.String" order="BEFORE">
+			SELECT CONCAT('003',DATE_FORMAT(SYSDATE(),'%Y%m'),LPAD(MAX(CAST(SUBSTRING(ARTIST_NO,9)AS INT))+1,5,0)) FROM ARTIST WHERE ARTIST_NO LIKE CONCAT('003',DATE_FORMAT(SYSDATE(),'%Y%m'),'%') 
+		</selectKey>
+	
+		INSERT INTO ARTIST (ARTIST_NO, NAME_KOR, NAME_ENG, PROFILE, BIRTHDAY, PHONES, EMAILS, INTRODUCE, HISTORY, OPEN_YN, REG_DATE, EDIT_DATE)
+		VALUES (
+		<choose>
+			<when test="artistNo == null or artistNo == ''">
+				CONCAT('003',DATE_FORMAT(SYSDATE(),'%Y%m'),'00001')
+			</when>
+			<otherwise>
+				#{artistNo}
+			</otherwise>
+		</choose>
+			,#{nameKor},#{nameEng},#{profile},#{birthday},#{phones},#{emails},#{introduce},#{history},#{openYn},now(),now()
+		)
+		 
+	</insert>
+	
 	
 </mapper>

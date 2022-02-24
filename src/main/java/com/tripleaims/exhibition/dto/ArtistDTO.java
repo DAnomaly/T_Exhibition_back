@@ -22,10 +22,9 @@ public class ArtistDTO {
 	private String birthday;
 	private String phones;
 	private String emails;
-	private String intoduce;
+	private String introduce;
 	private String history;
 	private String openYn;
-	private String showYn;
 	private String deleteYn;
 	private Date regDate;
 	private Date editDate;
