@@ -33,15 +33,4 @@ public class ArtworkController {
 		return categryService.selectAllArtworkCategory();
 	}
 	
-	@GetMapping("test.do")
-	public String test(String password) {
-		return securityUtil.encodePassword(password);
-	}
-	
-	
-	
-	
-	
-	
-	
 }

@@ -31,7 +31,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM member
 		WHERE MEMBER_NO=#{memberno}
 	</select>
-
+	
 	<update id="personalUpdate" parameterType="com.tripleaims.exhibition.dto.MemberDTO">
 		UPDATE member
 		SET PHONE=#{phone}, EMAIL=#{email}, REG_DATE=NOW()
@@ -43,6 +43,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SET ADDRESS1=#{address1}, ADDRESS2=#{address2}, REG_DATE=NOW()
 		WHERE MEMBER_NO=#{memberno}
 	</update>
+	
+	<select id="selectOneManager" parameterType="MemberDTO" resultType="MemberDTO">
+		SELECT * FROM MEMBER WHERE ID=#{id} AND MANAGER_YN='Y' AND DELETE_YN='N'
+	</select>
 
 	<update id="passUpdate" parameterType="com.tripleaims.exhibition.dto.MemberDTO">
 		UPDATE member

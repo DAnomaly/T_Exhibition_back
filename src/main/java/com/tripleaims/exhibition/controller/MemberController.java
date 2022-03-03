@@ -37,8 +37,7 @@ public class MemberController {
 	
 	@PostMapping("adminLogin.do")
 	public Map<String, Object> adminLogin(MemberDTO memberDTO) {
-		
-		return null;
+		return service.loginAdmin(memberDTO);
 	}
 	
 	
@@ -116,19 +115,7 @@ public class MemberController {
 		return mem;
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 }
 
 

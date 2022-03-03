@@ -20,7 +20,6 @@ public interface MemberDAO {
 	public int addressUpdate(MemberDTO dto);
 	public int passUpdate(MemberDTO dto);
 	
-	
-	
+	public MemberDTO selectOneManager(MemberDTO dto);
 	
 }
