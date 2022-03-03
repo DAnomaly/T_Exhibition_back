@@ -19,7 +19,7 @@ public class ArtistDTO {
 	private String nameKor;
 	private String nameEng;
 	private String profile;
-	private String birthday;
+	private Date birthday;
 	private String phones;
 	private String emails;
 	private String introduce;

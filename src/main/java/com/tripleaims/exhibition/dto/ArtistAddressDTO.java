@@ -18,6 +18,7 @@ public class ArtistAddressDTO {
 	private int artistAddressNo;
 	private String artistNo;
 	private String addressName;
+	private String addressn;
 	private String address1;
 	private String address2;
 	private Date regDate;

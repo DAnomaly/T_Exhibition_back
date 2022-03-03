@@ -5,10 +5,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="com.tripleaims.exhibition.dao.ArtistDAO">
 	
-	<select id="countArtists" parameterType="java.lang.String" resultType="java.lang.Integer">
-		SELECT COUNT(*) FROM ARTIST WHERE ARTIST_NO LIKE CONCAT(#{param},'*')
-	</select>
-	
 	<select id="selectListArtists" parameterType="ArtistDTO" resultType="ArtistDTO">
 		SELECT * FROM ARTIST
 		<where>
@@ -25,9 +21,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		ORDER BY REG_DATE DESC
 	</select>
 	
+	<select id="selectMaxArtistNo" resultType="java.lang.String">
+		SELECT MAX(ARTIST_NO) FROM ARTIST WHERE ARTIST_NO LIKE CONCAT('130',DATE_FORMAT(NOW(),'%Y%m'),'%')
+	</select>
+	
+	<insert id="insertArtist" parameterType="ArtistDTO">
+		INSERT INTO ARTIST (ARTIST_NO, NAME_KOR, NAME_ENG, PROFILE, BIRTHDAY, PHONES, EMAILS, INTRODUCE, HISTORY, OPEN_YN, REG_DATE, EDIT_DATE)
+		VALUES (#{artistNo},#{nameKor},#{nameEng},#{profile},#{birthday},#{phones},#{emails},#{introduce},#{history},#{openYn},now(),now())
+	</insert>
+	<!--  
 	<insert id="insertArtist" parameterType="ArtistDTO">
 		<selectKey keyProperty="artistNo" resultType="java.lang.String" order="BEFORE">
-			SELECT CONCAT('003',DATE_FORMAT(SYSDATE(),'%Y%m'),LPAD(MAX(CAST(SUBSTRING(ARTIST_NO,9)AS INT))+1,5,0)) FROM ARTIST WHERE ARTIST_NO LIKE CONCAT('003',DATE_FORMAT(SYSDATE(),'%Y%m'),'%') 
+			SELECT CONCAT('130',DATE_FORMAT(SYSDATE(),'%Y%m'),LPAD(MAX(CAST(SUBSTRING(ARTIST_NO,9)AS INT))+1,5,0)) FROM ARTIST WHERE ARTIST_NO LIKE CONCAT('130',DATE_FORMAT(SYSDATE(),'%Y%m'),'%') 
 		</selectKey>
 	
 		INSERT INTO ARTIST (ARTIST_NO, NAME_KOR, NAME_ENG, PROFILE, BIRTHDAY, PHONES, EMAILS, INTRODUCE, HISTORY, OPEN_YN, REG_DATE, EDIT_DATE)
@@ -42,7 +47,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</choose>
 			,#{nameKor},#{nameEng},#{profile},#{birthday},#{phones},#{emails},#{introduce},#{history},#{openYn},now(),now()
 		)
-		 
+	</insert>
+	-->
+	
+	<insert id="insertArtistAddress" parameterType="ArtistAddressDTO">
+		INSERT INTO ARTIST_ADDRESS (ARTIST_NO, ADDRESS_NAME, ADDRESSN, ADDRESS1, ADDRESS2, REG_DATE, EDIT_DATE)
+		VALUES (#{artistNo},#{addressName},#{addressn},#{address1},#{address2},now(),now())
 	</insert>
 	
 	
