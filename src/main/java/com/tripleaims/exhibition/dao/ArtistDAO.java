@@ -16,5 +16,6 @@ public interface ArtistDAO {
 	public String selectMaxArtistNo();
 	public boolean insertArtist(ArtistDTO artistDTO);
 	public boolean insertArtistAddress(ArtistAddressDTO artistAddressDTO);
+	public ArtistDTO selectOneArtist(String artistNo);
 	
 }

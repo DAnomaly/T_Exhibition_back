@@ -80,6 +80,11 @@ public class ArtistController {
 		return service.selectList(dto);
 	}
 	
+	@PostMapping("selectOne.do")
+	public Map<String, Object> selectOne(String artistNo) {
+		return service.selectOne(artistNo);
+	}
+	
 	
 }
 

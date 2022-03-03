@@ -154,6 +154,20 @@ public class ArtistService {
 		resultMap.put("result", resultList);
 		return resultMap;
 	}
+
+
+	public Map<String, Object> selectOne(String artistNo) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		ArtistDTO dto = dao.selectOneArtist(artistNo);
+		if(dto == null) {
+			resultMap.put("result", false);
+			resultMap.put("data", null);
+		} else {
+			resultMap.put("result", true);
+			resultMap.put("data", dto);
+		}
+		return resultMap;
+	}
 	
 }
 

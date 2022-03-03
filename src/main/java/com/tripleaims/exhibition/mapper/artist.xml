@@ -21,6 +21,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		ORDER BY REG_DATE DESC
 	</select>
 	
+	<select id="selectOneArtist" parameterType="java.lang.String" resultType="ArtistDTO">
+		SELECT * FROM ARTIST WHERE ARTIST_NO = #{param}
+	</select>
+	
 	<select id="selectMaxArtistNo" resultType="java.lang.String">
 		SELECT MAX(ARTIST_NO) FROM ARTIST WHERE ARTIST_NO LIKE CONCAT('130',DATE_FORMAT(NOW(),'%Y%m'),'%')
 	</select>
@@ -54,6 +58,5 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		INSERT INTO ARTIST_ADDRESS (ARTIST_NO, ADDRESS_NAME, ADDRESSN, ADDRESS1, ADDRESS2, REG_DATE, EDIT_DATE)
 		VALUES (#{artistNo},#{addressName},#{addressn},#{address1},#{address2},now(),now())
 	</insert>
-	
 	
 </mapper>
