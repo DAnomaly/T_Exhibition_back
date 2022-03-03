@@ -4,12 +4,14 @@ import java.sql.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor
 @AllArgsConstructor
 public class ArtistDTO {
 
@@ -17,13 +19,12 @@ public class ArtistDTO {
 	private String nameKor;
 	private String nameEng;
 	private String profile;
-	private String birthday;
+	private Date birthday;
 	private String phones;
 	private String emails;
-	private String intoduce;
+	private String introduce;
 	private String history;
 	private String openYn;
-	private String showYn;
 	private String deleteYn;
 	private Date regDate;
 	private Date editDate;

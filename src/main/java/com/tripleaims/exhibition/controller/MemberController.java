@@ -3,6 +3,7 @@ package com.tripleaims.exhibition.controller;
 import java.util.Map;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -40,6 +41,10 @@ public class MemberController {
 		return service.loginAdmin(memberDTO);
 	}
 	
+	@GetMapping("getPassword.do")
+	public String getPassword() {
+		return securityUtil.encodePassword("triple#7870");
+	}
 	
 	@RequestMapping(value = "/idcheck", method = RequestMethod.POST)
 	public String idcheck(String id) {

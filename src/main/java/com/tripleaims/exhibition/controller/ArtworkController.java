@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.tripleaims.exhibition.service.ArtworkCategoryService;
 import com.tripleaims.exhibition.service.ArtworkService;
-import com.tripleaims.exhibition.util.SecurityUtil;
 
 import lombok.AllArgsConstructor;
 
@@ -21,7 +20,6 @@ public class ArtworkController {
 
 	ArtworkService service;
 	ArtworkCategoryService categryService;
-	SecurityUtil securityUtil;
 	
 	@GetMapping("getAllArtwork.do")
 	public Map<String, Object> getAllArtwork() {

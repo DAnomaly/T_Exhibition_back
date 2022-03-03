@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.tripleaims.exhibition.dao.ArtistDAO">
+	
+	<select id="selectListArtists" parameterType="ArtistDTO" resultType="ArtistDTO">
+		SELECT * FROM ARTIST
+		<where>
+			<if test="nameKor != null and nameKor != ''">
+				NAME_KOR LIKE CONCAT('%',#{nameKor},'%')
+			</if>
+			<if test="nameEng != null and nameEng != ''">
+				OR NAME_ENG LIKE CONCAT('%',#{nameEng},'%') 
+			</if>
+			<if test="deleteYn != null and deleteYn != ''">
+				AND DELETE_YN = #{deleteYn}
+			</if>
+		</where>
+		ORDER BY REG_DATE DESC
+	</select>
+	
+	<select id="selectMaxArtistNo" resultType="java.lang.String">
+		SELECT MAX(ARTIST_NO) FROM ARTIST WHERE ARTIST_NO LIKE CONCAT('130',DATE_FORMAT(NOW(),'%Y%m'),'%')
+	</select>
+	
+	<insert id="insertArtist" parameterType="ArtistDTO">
+		INSERT INTO ARTIST (ARTIST_NO, NAME_KOR, NAME_ENG, PROFILE, BIRTHDAY, PHONES, EMAILS, INTRODUCE, HISTORY, OPEN_YN, REG_DATE, EDIT_DATE)
+		VALUES (#{artistNo},#{nameKor},#{nameEng},#{profile},#{birthday},#{phones},#{emails},#{introduce},#{history},#{openYn},now(),now())
+	</insert>
+	<!--  
+	<insert id="insertArtist" parameterType="ArtistDTO">
+		<selectKey keyProperty="artistNo" resultType="java.lang.String" order="BEFORE">
+			SELECT CONCAT('130',DATE_FORMAT(SYSDATE(),'%Y%m'),LPAD(MAX(CAST(SUBSTRING(ARTIST_NO,9)AS INT))+1,5,0)) FROM ARTIST WHERE ARTIST_NO LIKE CONCAT('130',DATE_FORMAT(SYSDATE(),'%Y%m'),'%') 
+		</selectKey>
+	
+		INSERT INTO ARTIST (ARTIST_NO, NAME_KOR, NAME_ENG, PROFILE, BIRTHDAY, PHONES, EMAILS, INTRODUCE, HISTORY, OPEN_YN, REG_DATE, EDIT_DATE)
+		VALUES (
+		<choose>
+			<when test="artistNo == null or artistNo == ''">
+				CONCAT('003',DATE_FORMAT(SYSDATE(),'%Y%m'),'00001')
+			</when>
+			<otherwise>
+				#{artistNo}
+			</otherwise>
+		</choose>
+			,#{nameKor},#{nameEng},#{profile},#{birthday},#{phones},#{emails},#{introduce},#{history},#{openYn},now(),now()
+		)
+	</insert>
+	-->
+	
+	<insert id="insertArtistAddress" parameterType="ArtistAddressDTO">
+		INSERT INTO ARTIST_ADDRESS (ARTIST_NO, ADDRESS_NAME, ADDRESSN, ADDRESS1, ADDRESS2, REG_DATE, EDIT_DATE)
+		VALUES (#{artistNo},#{addressName},#{addressn},#{address1},#{address2},now(),now())
+	</insert>
+	
+	
+</mapper>
