@@ -4,14 +4,51 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.tripleaims.exhibition.dao.MemberDAO">
-
+	
 	<select id="login" parameterType="java.lang.String" resultType="com.tripleaims.exhibition.dto.MemberDTO">
 		SELECT *
 		FROM member
-		WHERE ID=#{id} AND PW=#{pw} AND DELETE_YN='N'
+		WHERE ID=#{id} AND DELETE_YN='N'
+	</select>
+	
+	<select id="idcheck" parameterType="com.tripleaims.exhibition.dto.MemberDTO" resultType="java.lang.Integer">
+		SELECT IFNULL(COUNT(*), 0)
+		FROM member
+		WHERE ID=#{id}
+	</select>
+	
+	<insert id="signup" parameterType="com.tripleaims.exhibition.dto.MemberDTO">	
+		<selectKey keyProperty="memberno" resultType="java.lang.String" order="BEFORE">
+			 SELECT CONCAT('003', DATE_FORMAT(SYSDATE(), '%Y%m'), LPAD(MAX(CAST(SUBSTRING(MEMBER_NO,10)AS INT)) + 1, 5, 0)) FROM member
+		</selectKey>
+		
+		INSERT INTO member(MEMBER_NO, ID, PW, NAME, PHONE, EMAIL, BIRTHDAY, ADDRESS1, ADDRESS2, MVP_YN, MANAGER_YN, DELETE_YN, REG_DATE, EDIT_DATE)
+		VALUES ( #{memberno} , #{id}, #{pw}, #{name}, #{phone}, #{email}, #{birthday}, #{address1}, #{address2}, 'N', 'N', 'N' , NOW(), NOW())
+	</insert>
+
+	<select id="getMember" parameterType="com.tripleaims.exhibition.dto.MemberDTO" resultType="com.tripleaims.exhibition.dto.MemberDTO">
+		SELECT *
+		FROM member
+		WHERE MEMBER_NO=#{memberno}
 	</select>
 
+	<update id="personalUpdate" parameterType="com.tripleaims.exhibition.dto.MemberDTO">
+		UPDATE member
+		SET PHONE=#{phone}, EMAIL=#{email}, REG_DATE=NOW()
+		WHERE MEMBER_NO=#{memberno}
+	</update>
+	
+	<update id="addressUpdate" parameterType="com.tripleaims.exhibition.dto.MemberDTO">
+		UPDATE member
+		SET ADDRESS1=#{address1}, ADDRESS2=#{address2}, REG_DATE=NOW()
+		WHERE MEMBER_NO=#{memberno}
+	</update>
 
+	<update id="passUpdate" parameterType="com.tripleaims.exhibition.dto.MemberDTO">
+		UPDATE member
+		SET PW=#{pw}, REG_DATE=NOW()
+		WHERE MEMBER_NO=#{memberno}
+	</update>
 
 
 

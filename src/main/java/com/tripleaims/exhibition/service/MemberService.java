@@ -6,6 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tripleaims.exhibition.dao.MemberDAO;
 import com.tripleaims.exhibition.dto.MemberDTO;
+import com.tripleaims.exhibition.util.SecurityUtil;
+
 
 
 @Service
@@ -14,12 +16,73 @@ public class MemberService {
 
 	@Autowired
 	MemberDAO dao;
+	@Autowired
+	SecurityUtil util;
+	
 	
 	public MemberDTO login(MemberDTO dto) {	
 		MemberDTO mem = dao.login(dto);
+		
+		if(mem != null && util.isSamePassword(dto.getPw(), mem.getPw())) {
+			return mem;
+		} else {
+			return null;
+		}
+	}
+	
+	
+	public Boolean  idchek(String id) {
+		int n = dao.idcheck(id);
+		return n>0?true:false;
+	}
+	
+	
+	public boolean signup(MemberDTO dto) {
+		int add = dao.signup(dto);
+		return add>0?true:false;
+	}
+	
+	
+	public MemberDTO  getMember(MemberDTO dto) {
+		MemberDTO mem  = dao.getMember(dto);
 		return mem;
 	}
 	
-
+	
+	public boolean personalUpdate(MemberDTO dto) {
+		int n = dao.personalUpdate(dto);
+		return n>0?true:false;
+	}
+	
+	
+	public boolean addressUpdate(MemberDTO dto) {
+		int n = dao.addressUpdate(dto);
+		return n>0?true:false;
+	}
+	
+	public boolean passUpdate(MemberDTO dto) {
+		int n = dao.passUpdate(dto);
+		return n>0?true:false;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }
