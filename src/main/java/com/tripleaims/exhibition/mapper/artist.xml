@@ -56,4 +56,35 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 	
 	
+	<select id="artistList" parameterType="com.tripleaims.exhibition.dto.ArtistDTO" resultType="com.tripleaims.exhibition.dto.ArtistDTO">
+		SELECT ARTIST_NO, NAME_KOR, NAME_ENG, PROFILE, BIRTHDAY, PHONES, EMAILS, INTRODUCE, HISTORY, OPEN_YN, DELETE_YN,REG_DATE, EDIT_DATE, HIT
+		FROM artist
+		WHERE OPEN_YN = 'Y'  
+				<if test="search != null and search != ''">
+			  		AND NAME_KOR LIKE CONCAT('%', #{search}, '%')
+			 	</if> 
+	</select>
+	
+	
+	<select id="artistCount" parameterType="com.tripleaims.exhibition.dto.PagingParam" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+		FROM artist
+		WHERE OPEN_YN = 'Y'	
+	</select>
+	
+	<select id="artistDetail" parameterType="java.lang.String" resultType="com.tripleaims.exhibition.dto.ArtistDTO">
+		SELECT  ARTIST_NO, NAME_KOR, NAME_ENG, PROFILE, BIRTHDAY, PHONES, EMAILS, INTRODUCE, HISTORY, OPEN_YN, DELETE_YN,REG_DATE, EDIT_DATE, HIT
+		FROM artist
+		WHERE ARTIST_NO=#{artistNo}
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 </mapper>
