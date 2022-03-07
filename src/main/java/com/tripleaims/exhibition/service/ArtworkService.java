@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tripleaims.exhibition.dao.ArtworkDAO;
+import com.tripleaims.exhibition.dto.ArtworkCategoryDTO;
 import com.tripleaims.exhibition.dto.ArtworkDTO;
 
 @Service
@@ -25,6 +26,26 @@ public class ArtworkService {
 		resultMap.put("result", list);
 		
 		return resultMap;
+	}
+	
+	public Map<String, Object> selectAllArtworkCategory() {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		
+		List<ArtworkCategoryDTO> list = dao.selectAllArtworkCategroy();
+		resultMap.put("result", list);
+		
+		return resultMap;
+	}
+
+	public Map<String, Object> insertArtwork(Map<String, Object> paramMap) {
+		// TODO Auto-generated method stub
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		
+		
+		
+		
+		
+		return null;
 	}
 	
 }

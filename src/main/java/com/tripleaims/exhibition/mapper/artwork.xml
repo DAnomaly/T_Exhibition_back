@@ -6,7 +6,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.tripleaims.exhibition.dao.ArtworkDAO">
 	
 	<select id="selectAllArtwork" resultType="ArtworkDTO">
-		SELECT `ARTWORK_NO`, `TITLE`, `ARTIST_NO`, `ARTIST_NAME_KOR`, `ARTIST_NAME_ENG`, `CATEGORY_NO`, `CATEGORY_NAME`, `MEDIA`, `EXPLAIN`, `ARTWORK_DATE`, `MAIN_IMAGE_NO`, `MAIN_IMAGE_NAME`, `MAIN_THUM1_NAME`, `MAIN_THUM2_NAME`, `APPRAISE_NO`, `APPRAISE_NAME`, `APPRAISE_COMMENT`, `APPRAISE_VALUE`, `SELL_VALUE`, `ORDER_YN`, `ORDER_NO`, `STORAGE_YN`, `SHOW_YN`, `DELETE_YN`, `REG_DATE`, `EDIT_DATE`, `HIT` FROM artwork_view ORDER BY `REG_DATE` DESC  
+		SELECT * FROM ARTWORK_VIEW ORDER BY `REG_DATE` DESC  
 	</select>
+	
+	<select id="selectAllArtworkCategroy" resultType="ArtworkCategoryDTO">
+		SELECT * FROM ARTWORK_CATEGORY WHERE DELETE_YN = 'N' ORDER BY CATEGORY_NO
+	</select>
+	
+	<select id="selectMaxArtworkNo" resultType="java.lang.String">
+		SELECT MAX(ARTIST_NO) FROM ARTWORK_VIEW WHERE ARTIST_NO LIKE CONCAT('120',DATE_FORMAT(NOW(),'%Y%m'),'%')
+	</select>
+	
+	<insert id="insertArtwork" parameterType="ArtworkDTO">
+		INSERT INTO ARTWORK (ARTWORK_NO, TITLE, ARTIST_NO, CATEGORY_NO, MEDIA, EXPLAIN, ARTWORK_DATE, SHOW_YN)
+		VALUES ()
+	</insert>
 	
 </mapper>
