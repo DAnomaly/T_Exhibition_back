@@ -18,7 +18,7 @@ public class ArtworkImageDTO {
 	private String artworkImageNo;
 	private String artworkNo;
 	private int groupOrder;
-	private String filename;
+	private String fileName;
 	private String thum1Name;
 	private String thum2Name;
 	private String deleteYn;

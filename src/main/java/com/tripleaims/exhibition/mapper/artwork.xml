@@ -6,7 +6,42 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.tripleaims.exhibition.dao.ArtworkDAO">
 	
 	<select id="selectAllArtwork" resultType="ArtworkDTO">
-		SELECT `ARTWORK_NO`, `TITLE`, `ARTIST_NO`, `ARTIST_NAME_KOR`, `ARTIST_NAME_ENG`, `CATEGORY_NO`, `CATEGORY_NAME`, `MEDIA`, `EXPLAIN`, `ARTWORK_DATE`, `MAIN_IMAGE_NO`, `MAIN_IMAGE_NAME`, `MAIN_THUM1_NAME`, `MAIN_THUM2_NAME`, `APPRAISE_NO`, `APPRAISE_NAME`, `APPRAISE_COMMENT`, `APPRAISE_VALUE`, `SELL_VALUE`, `ORDER_YN`, `ORDER_NO`, `STORAGE_YN`, `SHOW_YN`, `DELETE_YN`, `REG_DATE`, `EDIT_DATE`, `HIT` FROM artwork_view ORDER BY `REG_DATE` DESC  
+		SELECT * FROM ARTWORK_VIEW
+		<where>
+			<if test="artworkName != null and artworkName != ''">
+				TITLE LIKE CONCAT('%',#{artworkName},'%')
+			</if>
+			<if test="artistName != null and artistName != ''">
+			    AND
+				(
+					ARTIST_NAME_KOR LIKE CONCAT('%',#{artistName},'%')
+				 OR ARTIST_NAME_ENG LIKE CONCAT('%',#{artistName},'%')
+				)
+			</if>
+		</where> 
+		 ORDER BY `REG_DATE` DESC  
 	</select>
+	
+	<select id="selectAllArtworkCategroy" resultType="ArtworkCategoryDTO">
+		SELECT * FROM ARTWORK_CATEGORY WHERE DELETE_YN = 'N' ORDER BY CATEGORY_NO
+	</select>
+	
+	<select id="selectMaxArtworkNo" resultType="java.lang.String">
+		SELECT MAX(ARTWORK_NO) FROM ARTWORK_VIEW WHERE ARTWORK_NO LIKE CONCAT('120',DATE_FORMAT(NOW(),'%Y%m'),'%')
+	</select>
+	
+	<select id="selectMaxArtworkImageNo" resultType="java.lang.String">
+		SELECT MAX(ARTWORK_IMAGE_NO) FROM ARTWORK_IMAGE WHERE ARTWORK_IMAGE_NO LIKE CONCAT('121',DATE_FORMAT(NOW(),'%Y%m'),'%')
+	</select>
+	
+	<insert id="insertArtwork" parameterType="ArtworkDTO">
+		INSERT INTO ARTWORK (`ARTWORK_NO`, `TITLE`, `ARTIST_NO`, `CATEGORY_NO`, `MEDIA`, `EXPLAIN`, `ARTWORK_DATE`, `SHOW_YN`, `REG_DATE`, `EDIT_DATE`) 
+		VALUES (#{artworkNo}, #{title}, #{artistNo}, #{categoryNo}, #{media}, #{explain}, #{artworkDate}, #{showYn}, NOW(), NOW())
+	</insert>
+	
+	<insert id="insertArtworkImage" parameterType="ArtworkImageDTO">
+		INSERT INTO ARTWORK_IMAGE (ARTWORK_IMAGE_NO, ARTWORK_NO, GROUP_ORDER, FILE_NAME, THUM1_NAME, REG_DATE, EDIT_DATE) 
+		VALUES (#{artworkImageNo}, #{artworkNo}, #{groupOrder}, #{fileName}, #{thum1Name}, now(), now())
+	</insert>
 	
 </mapper>

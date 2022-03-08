@@ -5,7 +5,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="com.tripleaims.exhibition.dao.ArtistDAO">
 	
-	<select id="selectListArtists" parameterType="ArtistDTO" resultType="ArtistDTO">
+	<select id="selectOneArtist" parameterType="java.lang.String" resultType="ArtistDTO">
+		SELECT * FROM ARTIST WHERE ARTIST_NO = #{param}
+	</select><select id="selectListArtists" parameterType="ArtistDTO" resultType="ArtistDTO">
 		SELECT * FROM ARTIST
 		<where>
 			<if test="nameKor != null and nameKor != ''">
@@ -21,6 +23,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		ORDER BY REG_DATE DESC
 	</select>
 	
+	<select id="selectArtistAddress" parameterType="java.lang.String" resultType="ArtistAddressDTO">
+		SELECT * FROM ARTIST_ADDRESS WHERE ARTIST_NO = #{param}
+	</select>
+	
 	<select id="selectMaxArtistNo" resultType="java.lang.String">
 		SELECT MAX(ARTIST_NO) FROM ARTIST WHERE ARTIST_NO LIKE CONCAT('130',DATE_FORMAT(NOW(),'%Y%m'),'%')
 	</select>
@@ -29,31 +35,40 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		INSERT INTO ARTIST (ARTIST_NO, NAME_KOR, NAME_ENG, PROFILE, BIRTHDAY, PHONES, EMAILS, INTRODUCE, HISTORY, OPEN_YN, REG_DATE, EDIT_DATE)
 		VALUES (#{artistNo},#{nameKor},#{nameEng},#{profile},#{birthday},#{phones},#{emails},#{introduce},#{history},#{openYn},now(),now())
 	</insert>
-	<!--  
-	<insert id="insertArtist" parameterType="ArtistDTO">
-		<selectKey keyProperty="artistNo" resultType="java.lang.String" order="BEFORE">
-			SELECT CONCAT('130',DATE_FORMAT(SYSDATE(),'%Y%m'),LPAD(MAX(CAST(SUBSTRING(ARTIST_NO,9)AS INT))+1,5,0)) FROM ARTIST WHERE ARTIST_NO LIKE CONCAT('130',DATE_FORMAT(SYSDATE(),'%Y%m'),'%') 
-		</selectKey>
-	
-		INSERT INTO ARTIST (ARTIST_NO, NAME_KOR, NAME_ENG, PROFILE, BIRTHDAY, PHONES, EMAILS, INTRODUCE, HISTORY, OPEN_YN, REG_DATE, EDIT_DATE)
-		VALUES (
-		<choose>
-			<when test="artistNo == null or artistNo == ''">
-				CONCAT('003',DATE_FORMAT(SYSDATE(),'%Y%m'),'00001')
-			</when>
-			<otherwise>
-				#{artistNo}
-			</otherwise>
-		</choose>
-			,#{nameKor},#{nameEng},#{profile},#{birthday},#{phones},#{emails},#{introduce},#{history},#{openYn},now(),now()
-		)
-	</insert>
-	-->
-	
+		
 	<insert id="insertArtistAddress" parameterType="ArtistAddressDTO">
 		INSERT INTO ARTIST_ADDRESS (ARTIST_NO, ADDRESS_NAME, ADDRESSN, ADDRESS1, ADDRESS2, REG_DATE, EDIT_DATE)
 		VALUES (#{artistNo},#{addressName},#{addressn},#{address1},#{address2},now(),now())
 	</insert>
+	
+	<update id="updateArtist" parameterType="ArtistAddressDTO">
+		UPDATE ARTIST 
+		   SET NAME_KOR = #{nameKor}
+		     , NAME_ENG = #{nameEng}
+		     , BIRTHDAY = #{birthday}
+		     , PHONES = #{phones}
+		     , EMAILS = #{emails}
+		     , INTRODUCE = #{introduce}
+		     , HISTORY = #{history}
+		     , OPEN_YN = #{openYn}
+		     , EDIT_DATE = NOW()
+		<if test="profile != null and profile != ''">
+		     , PROFILE = #{profile}
+	     </if> 
+		 WHERE ARTIST_NO = #{artistNo}
+	</update>
+		
+	<update id="deleteArtist" parameterType="java.lang.String">
+		UPDATE ARTIST
+		   SET OPEN_YN = 'N'
+		     , DELETE_YN = 'N'
+		     , EDIT_DATE = NOW()
+		 WHERE ARTIST_NO = #{param}
+	</update>
+	
+	<delete id="deleteArtistAddress" parameterType="java.lang.String">
+		DELETE FROM ARTIST_ADDRESS WHERE ARTIST_NO = #{param}
+	</delete>
 	
 	
 	<select id="artistList" parameterType="com.tripleaims.exhibition.dto.PagingParam" resultType="com.tripleaims.exhibition.dto.ArtistDTO">

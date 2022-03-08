@@ -20,6 +20,9 @@ public class ArtworkDTO {
 	private String artistNo;
 	private String artistNameKor;
 	private String artistNameEng;
+	private String artistProfile;
+	private String artistIntroduce;
+	private String artistHistory;
 	private String categoryNo;
 	private String categoryName;
 	private String media;
