@@ -29,6 +29,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		INSERT INTO ARTIST (ARTIST_NO, NAME_KOR, NAME_ENG, PROFILE, BIRTHDAY, PHONES, EMAILS, INTRODUCE, HISTORY, OPEN_YN, REG_DATE, EDIT_DATE)
 		VALUES (#{artistNo},#{nameKor},#{nameEng},#{profile},#{birthday},#{phones},#{emails},#{introduce},#{history},#{openYn},now(),now())
 	</insert>
+	
 	<!--  
 	<insert id="insertArtist" parameterType="ArtistDTO">
 		<selectKey keyProperty="artistNo" resultType="java.lang.String" order="BEFORE">
