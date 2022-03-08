@@ -56,20 +56,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 	
 	
-	<select id="artistList" parameterType="com.tripleaims.exhibition.dto.ArtistDTO" resultType="com.tripleaims.exhibition.dto.ArtistDTO">
+	<select id="artistList" parameterType="com.tripleaims.exhibition.dto.PagingParam" resultType="com.tripleaims.exhibition.dto.ArtistDTO">
 		SELECT ARTIST_NO, NAME_KOR, NAME_ENG, PROFILE, BIRTHDAY, PHONES, EMAILS, INTRODUCE, HISTORY, OPEN_YN, DELETE_YN,REG_DATE, EDIT_DATE, HIT
-		FROM artist
-		WHERE OPEN_YN = 'Y'  
-				<if test="search != null and search != ''">
-			  		AND NAME_KOR LIKE CONCAT('%', #{search}, '%')
-			 	</if> 
+		FROM (SELECT @ROWNUM:=@ROWNUM+1 RNUM, A.ARTIST_NO,NAME_KOR, A.NAME_ENG, A.PROFILE, A.BIRTHDAY, A.PHONES, A.EMAILS, A.INTRODUCE, A.HISTORY, A.OPEN_YN, A.DELETE_YN, A.REG_DATE, A.EDIT_DATE, A.HIT
+				FROM artist A, (SELECT @ROWNUM:=0)R
+				WHERE A.OPEN_YN = 'Y'
+					<if test="search != null and search != ''">
+				  		AND A.NAME_KOR LIKE CONCAT('%', #{search}, '%')
+				 	</if> 
+				ORDER BY A.NAME_KOR ASC) LIST
+		   WHERE RNUM<![CDATA[>=]]> ${start} AND RNUM<![CDATA[<=]]>${end}
 	</select>
 	
 	
 	<select id="artistCount" parameterType="com.tripleaims.exhibition.dto.PagingParam" resultType="java.lang.Integer">
 		SELECT COUNT(*)
-		FROM artist
+		FROM  artist
 		WHERE OPEN_YN = 'Y'	
+			<if test="search != null and search != ''">
+				 AND NAME_KOR LIKE CONCAT('%', #{search}, '%')
+			</if> 
 	</select>
 	
 	<select id="artistDetail" parameterType="java.lang.String" resultType="com.tripleaims.exhibition.dto.ArtistDTO">
