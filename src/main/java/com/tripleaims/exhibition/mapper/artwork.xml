@@ -22,10 +22,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		 ORDER BY `REG_DATE` DESC  
 	</select>
 	
+	<select id="selectOneArtwork" resultType="ArtworkDTO">
+		SELECT * FROM ARTWORK_VIEW WHERE ARTWORK_NO = #{param}
+	</select>
+	
 	<select id="selectAllArtworkCategroy" resultType="ArtworkCategoryDTO">
 		SELECT * FROM ARTWORK_CATEGORY WHERE DELETE_YN = 'N' ORDER BY CATEGORY_NO
 	</select>
 	
+	<select id="selectArtworkImage" resultType="ArtworkImageDTO">
+		SELECT * FROM ARTWORK_IMAGE WHERE ARTWORK_NO = #{param} ORDER BY GROUP_ORDER
+	</select>
+		
 	<select id="selectMaxArtworkNo" resultType="java.lang.String">
 		SELECT MAX(ARTWORK_NO) FROM ARTWORK_VIEW WHERE ARTWORK_NO LIKE CONCAT('120',DATE_FORMAT(NOW(),'%Y%m'),'%')
 	</select>

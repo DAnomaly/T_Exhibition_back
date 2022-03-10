@@ -56,4 +56,21 @@ public class ArtworkController {
 		return service.insertArtwork(paramMap);
 	}
 	
+	@PostMapping("selectOneArtwork.do") 
+	public Map<String, Object> selectOneArtwork(String artworkNo) {
+		return service.selectOneArtwork(artworkNo);
+	}
+	
+	@PostMapping("updateArtwork.do")
+	public String updateArtwork(ArtworkDTO artworkDTO, @DateTimeFormat(pattern="yyyy-MM-dd") java.util.Date madenDate, boolean openY) {
+
+		if(madenDate != null) {
+			artworkDTO.setArtworkDate(new Date(madenDate.getTime()));
+		}
+		artworkDTO.setShowYn(openY ? "Y" : "N");
+		
+		return service.updateArtwork(artworkDTO);
+	}
+	
+	
 }

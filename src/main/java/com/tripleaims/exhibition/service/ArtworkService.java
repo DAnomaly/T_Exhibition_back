@@ -1,6 +1,5 @@
 package com.tripleaims.exhibition.service;
 
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.sql.Date;
@@ -167,6 +166,21 @@ public class ArtworkService {
 		resultStr.append("</script>");
 		
 		return resultStr.toString();
+	}
+
+	public Map<String, Object> selectOneArtwork(String artworkNo) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		
+		resultMap.put("artwork", dao.selectOneArtwork(artworkNo));
+		resultMap.put("artworkImages", dao.selectArtworkImage(artworkNo));
+		resultMap.put("category", dao.selectAllArtworkCategroy());
+		
+		return resultMap;
+	}
+
+	public String updateArtwork(ArtworkDTO artworkDTO) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	
