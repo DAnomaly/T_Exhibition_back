@@ -70,6 +70,8 @@ public class ArtworkService {
 			resultStr.append("alert('작품 등록 실패');\n");
 			resultStr.append("history.back();\n");
 			resultStr.append("</script>\n");
+			
+			return resultStr.toString();
 		}
 		
 		// 이미지 등록
@@ -83,6 +85,11 @@ public class ArtworkService {
 			
 			for (int i = 0; i < images.size(); i++) {
 				MultipartFile image = images.get(i);
+				
+				if(image.getSize() == 0) {
+					continue;
+				}
+				
 				String ext = image.getOriginalFilename().substring(image.getOriginalFilename().lastIndexOf(".") + 1);
 				String filename = "artwork_" + artworkDTO.getArtworkNo() + "_" + (i + 1);
 				String fullFilename = filename + "." + ext;
