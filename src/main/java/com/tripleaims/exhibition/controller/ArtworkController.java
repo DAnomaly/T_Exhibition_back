@@ -28,10 +28,11 @@ public class ArtworkController {
 	private ArtworkService service;
 	
 	@GetMapping("selectArtwork.do")
-	public Map<String, Object> selectArtwork(String artworkName, String artistName) {
+	public Map<String, Object> selectArtwork(String artworkName, String artistName, String artistNo) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("artworkName", artworkName);
 		paramMap.put("artistName", artistName);
+		paramMap.put("artistNo", artistNo);
 		return service.selectAllArtwork(paramMap);
 	}
 	
@@ -54,19 +55,15 @@ public class ArtworkController {
 		
 		return service.insertArtwork(paramMap);
 	}
-	
-	@RequestMapping(value = "/artistArtwork", method = {RequestMethod.GET, RequestMethod.POST})
-	public List<ArtworkDTO> artistArtwork(String artistNo) {
-		System.out.println("ArtworkController artistArtwork()");
-		List<ArtworkDTO> list = service.artistArtwork(artistNo);
-		return list;
-		
-	}
-	
 
 	@PostMapping("selectOneArtwork.do") 
 	public Map<String, Object> selectOneArtwork(String artworkNo) {
 		return service.selectOneArtwork(artworkNo);
+	}
+	
+	@RequestMapping("selectArtworkFromArr.do")
+	public Map<String, Object> selectArtworkFromArr(String[] arr) {
+		return service.selectArtworkFromArr(arr);
 	}
 	
 	@PostMapping("updateArtworkConfig.do")
@@ -80,5 +77,12 @@ public class ArtworkController {
 		return service.updateArtwork(artworkDTO);
 	}
 	
+	@RequestMapping(value = "/artistArtwork", method = {RequestMethod.GET, RequestMethod.POST})
+	public List<ArtworkDTO> artistArtwork(String artistNo) {
+		System.out.println("ArtworkController artistArtwork()");
+		List<ArtworkDTO> list = service.artistArtwork(artistNo);
+		return list;
+		
+	}
 	
 }

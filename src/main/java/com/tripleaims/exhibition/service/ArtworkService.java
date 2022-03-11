@@ -174,6 +174,24 @@ public class ArtworkService {
 		return resultStr.toString();
 	}
 
+	public Map<String, Object> selectArtworkFromArr(String[] arr) {
+		String param = "";
+		for (int i = 0; i < arr.length; i++) {
+			String str = arr[i];
+			
+			if(i == 0) {
+				param += str;
+			} else {
+				param += "," + str;
+			}
+		}
+
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("result", dao.selectArtworkFromArr(param));
+		
+		return resultMap;
+	}
+
 	public Map<String, Object> selectOneArtwork(String artworkNo) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		
@@ -183,7 +201,7 @@ public class ArtworkService {
 		
 		return resultMap;
 	}
-
+	
 	public String updateArtwork(ArtworkDTO artworkDTO) {
 		StringBuilder contentBuilder = new StringBuilder();
 		boolean isSuccess = dao.updateArtworkConfig(artworkDTO);
@@ -207,6 +225,8 @@ public class ArtworkService {
 	public List<ArtworkDTO> artistArtwork(String artistNo) {
 		return dao.artistArtwork(artistNo);
 	}
+
+
 	
 	
 	

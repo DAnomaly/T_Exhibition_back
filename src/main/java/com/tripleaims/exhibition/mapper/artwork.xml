@@ -8,8 +8,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectAllArtwork" resultType="ArtworkDTO">
 		SELECT * FROM ARTWORK_VIEW
 		<where>
+			<if test="artistNo != null and artistNo != ''">
+				ARTIST_NO = #{artistNo}
+			</if>
 			<if test="artworkName != null and artworkName != ''">
-				TITLE LIKE CONCAT('%',#{artworkName},'%')
+				AND TITLE LIKE CONCAT('%',#{artworkName},'%')
 			</if>
 			<if test="artistName != null and artistName != ''">
 			    AND
@@ -18,8 +21,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				 OR ARTIST_NAME_ENG LIKE CONCAT('%',#{artistName},'%')
 				)
 			</if>
+			AND DELETE_YN = 'N'
 		</where> 
 		 ORDER BY `REG_DATE` DESC  
+	</select>
+	
+	<select id="selectArtworkFromArr" resultType="ArtworkDTO">
+		SELECT * FROM ARTWORK_VIEW WHERE ARTWORK_NO IN (${param}) ORDER BY ARTWORK_NO
 	</select>
 	
 	<select id="selectOneArtwork" resultType="ArtworkDTO">
