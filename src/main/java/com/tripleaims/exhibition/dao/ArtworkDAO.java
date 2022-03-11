@@ -22,5 +22,6 @@ public interface ArtworkDAO {
 	public String selectMaxArtworkImageNo();
 	public boolean insertArtwork(ArtworkDTO artworkDTO);
 	public boolean insertArtworkImage(ArtworkImageDTO artworkImageDTO);
+	public boolean updateArtworkConfig(ArtworkDTO artworkDTO);
 	
 }

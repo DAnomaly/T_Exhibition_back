@@ -31,7 +31,6 @@ public class ArtworkService {
 	
 	public Map<String, Object> selectAllArtwork(Map<String, Object> paramMap) {
 		Map<String, Object> resultMap = new HashMap<>();
-		System.out.println(paramMap);
 		List<ArtworkDTO> list = dao.selectAllArtwork(paramMap);
 		resultMap.put("result", list);
 		
@@ -179,8 +178,22 @@ public class ArtworkService {
 	}
 
 	public String updateArtwork(ArtworkDTO artworkDTO) {
-		// TODO Auto-generated method stub
-		return null;
+		StringBuilder contentBuilder = new StringBuilder();
+		boolean isSuccess = dao.updateArtworkConfig(artworkDTO);
+		
+		if(isSuccess) {
+			// 성공
+			contentBuilder.append("<script>\n");
+			contentBuilder.append("location.replace('" + ExhibitionConfig.REFERER_URL + "/admin/artwork-view.html?artworkNo=" + artworkDTO.getArtworkNo() + "');");
+			contentBuilder.append("</script>");
+		} else {
+			// 실패
+			contentBuilder.append("<body>");
+			contentBuilder.append("ERROR");
+			contentBuilder.append("</body>");
+		}
+		
+		return contentBuilder.toString();
 	}
 	
 	
