@@ -1,6 +1,5 @@
 package com.tripleaims.exhibition.service;
 
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.sql.Date;
@@ -32,7 +31,6 @@ public class ArtworkService {
 	
 	public Map<String, Object> selectAllArtwork(Map<String, Object> paramMap) {
 		Map<String, Object> resultMap = new HashMap<>();
-		System.out.println(paramMap);
 		List<ArtworkDTO> list = dao.selectAllArtwork(paramMap);
 		resultMap.put("result", list);
 		
@@ -167,6 +165,35 @@ public class ArtworkService {
 		resultStr.append("</script>");
 		
 		return resultStr.toString();
+	}
+
+	public Map<String, Object> selectOneArtwork(String artworkNo) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		
+		resultMap.put("artwork", dao.selectOneArtwork(artworkNo));
+		resultMap.put("artworkImages", dao.selectArtworkImage(artworkNo));
+		resultMap.put("category", dao.selectAllArtworkCategroy());
+		
+		return resultMap;
+	}
+
+	public String updateArtwork(ArtworkDTO artworkDTO) {
+		StringBuilder contentBuilder = new StringBuilder();
+		boolean isSuccess = dao.updateArtworkConfig(artworkDTO);
+		
+		if(isSuccess) {
+			// 성공
+			contentBuilder.append("<script>\n");
+			contentBuilder.append("location.replace('" + ExhibitionConfig.REFERER_URL + "/admin/artwork-view.html?artworkNo=" + artworkDTO.getArtworkNo() + "');");
+			contentBuilder.append("</script>");
+		} else {
+			// 실패
+			contentBuilder.append("<body>");
+			contentBuilder.append("ERROR");
+			contentBuilder.append("</body>");
+		}
+		
+		return contentBuilder.toString();
 	}
 	
 	

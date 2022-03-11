@@ -22,10 +22,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		 ORDER BY `REG_DATE` DESC  
 	</select>
 	
+	<select id="selectOneArtwork" resultType="ArtworkDTO">
+		SELECT * FROM ARTWORK_VIEW WHERE ARTWORK_NO = #{param}
+	</select>
+	
 	<select id="selectAllArtworkCategroy" resultType="ArtworkCategoryDTO">
 		SELECT * FROM ARTWORK_CATEGORY WHERE DELETE_YN = 'N' ORDER BY CATEGORY_NO
 	</select>
 	
+	<select id="selectArtworkImage" resultType="ArtworkImageDTO">
+		SELECT * FROM ARTWORK_IMAGE WHERE ARTWORK_NO = #{param} ORDER BY GROUP_ORDER
+	</select>
+		
 	<select id="selectMaxArtworkNo" resultType="java.lang.String">
 		SELECT MAX(ARTWORK_NO) FROM ARTWORK_VIEW WHERE ARTWORK_NO LIKE CONCAT('120',DATE_FORMAT(NOW(),'%Y%m'),'%')
 	</select>
@@ -43,5 +51,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		INSERT INTO ARTWORK_IMAGE (ARTWORK_IMAGE_NO, ARTWORK_NO, GROUP_ORDER, FILE_NAME, THUM1_NAME, REG_DATE, EDIT_DATE) 
 		VALUES (#{artworkImageNo}, #{artworkNo}, #{groupOrder}, #{fileName}, #{thum1Name}, now(), now())
 	</insert>
+	 
+	<update id="updateArtworkConfig" parameterType="ArtworkDTO">
+		UPDATE ARTWORK
+		   SET `TITLE`=#{title}, `CATEGORY_NO`=#{categoryNo}, `MEDIA`=#{media}, `EXPLAIN`=#{explain}, `ARTWORK_DATE`=#{artworkDate}, `SHOW_YN`=#{showYn}, `EDIT_DATE`=NOW()
+		 WHERE ARTWORK_NO=#{artworkNo} 
+	</update>
 	
 </mapper>
