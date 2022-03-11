@@ -127,7 +127,7 @@ public class ArtistController {
 		return service.update(paramMap);
 	}
 	
-	@PostMapping("selectList.do")
+	@RequestMapping("selectList.do")
 	public Map<String, Object> selectList(ArtistDTO dto) {
 		return service.selectList(dto);
 	}
