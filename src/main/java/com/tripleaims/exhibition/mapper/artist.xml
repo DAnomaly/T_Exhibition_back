@@ -35,7 +35,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		INSERT INTO ARTIST (ARTIST_NO, NAME_KOR, NAME_ENG, PROFILE, BIRTHDAY, PHONES, EMAILS, INTRODUCE, HISTORY, OPEN_YN, REG_DATE, EDIT_DATE)
 		VALUES (#{artistNo},#{nameKor},#{nameEng},#{profile},#{birthday},#{phones},#{emails},#{introduce},#{history},#{openYn},now(),now())
 	</insert>
-		
+
 	<insert id="insertArtistAddress" parameterType="ArtistAddressDTO">
 		INSERT INTO ARTIST_ADDRESS (ARTIST_NO, ADDRESS_NAME, ADDRESSN, ADDRESS1, ADDRESS2, REG_DATE, EDIT_DATE)
 		VALUES (#{artistNo},#{addressName},#{addressn},#{address1},#{address2},now(),now())
@@ -69,6 +69,35 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="deleteArtistAddress" parameterType="java.lang.String">
 		DELETE FROM ARTIST_ADDRESS WHERE ARTIST_NO = #{param}
 	</delete>
+	
+	
+	<select id="artistList" parameterType="com.tripleaims.exhibition.dto.PagingParam" resultType="com.tripleaims.exhibition.dto.ArtistDTO">
+		SELECT ARTIST_NO, NAME_KOR, NAME_ENG, PROFILE, BIRTHDAY, PHONES, EMAILS, INTRODUCE, HISTORY, OPEN_YN, DELETE_YN,REG_DATE, EDIT_DATE, HIT
+		FROM (SELECT @ROWNUM:=@ROWNUM+1 RNUM, A.ARTIST_NO,NAME_KOR, A.NAME_ENG, A.PROFILE, A.BIRTHDAY, A.PHONES, A.EMAILS, A.INTRODUCE, A.HISTORY, A.OPEN_YN, A.DELETE_YN, A.REG_DATE, A.EDIT_DATE, A.HIT
+				FROM artist A, (SELECT @ROWNUM:=0)R
+				WHERE A.OPEN_YN = 'Y'
+					<if test="search != null and search != ''">
+				  		AND A.NAME_KOR LIKE CONCAT('%', #{search}, '%')
+				 	</if> 
+				ORDER BY A.NAME_KOR ASC) LIST
+		   WHERE RNUM<![CDATA[>=]]> ${start} AND RNUM<![CDATA[<=]]>${end}
+	</select>
+	
+	
+	<select id="artistCount" parameterType="com.tripleaims.exhibition.dto.PagingParam" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+		FROM  artist
+		WHERE OPEN_YN = 'Y'	
+			<if test="search != null and search != ''">
+				 AND NAME_KOR LIKE CONCAT('%', #{search}, '%')
+			</if> 
+	</select>
+	
+	<select id="artistDetail" parameterType="java.lang.String" resultType="com.tripleaims.exhibition.dto.ArtistDTO">
+		SELECT  ARTIST_NO, NAME_KOR, NAME_ENG, PROFILE, BIRTHDAY, PHONES, EMAILS, INTRODUCE, HISTORY, OPEN_YN, DELETE_YN,REG_DATE, EDIT_DATE, HIT
+		FROM artist
+		WHERE ARTIST_NO=#{artistNo}
+	</select>
 	
 	
 </mapper>

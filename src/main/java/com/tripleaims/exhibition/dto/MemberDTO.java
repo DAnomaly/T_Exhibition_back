@@ -12,7 +12,6 @@ import lombok.ToString;
 @Setter
 @ToString
 @AllArgsConstructor
-@NoArgsConstructor
 public class MemberDTO {
 
 	private String memberno;

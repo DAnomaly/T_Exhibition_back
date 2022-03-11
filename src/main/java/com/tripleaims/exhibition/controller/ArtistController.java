@@ -10,10 +10,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.tripleaims.exhibition.dto.ArtistDTO;
+import com.tripleaims.exhibition.dto.PagingParam;
 import com.tripleaims.exhibition.service.ArtistService;
 
 import lombok.AllArgsConstructor;
@@ -134,6 +136,58 @@ public class ArtistController {
 	public Map<String, Object> selectOne(String artistNo) {
 		return service.selectOne(artistNo);
 	}
+	
+	
+	@RequestMapping(value = "/artistList", method = {RequestMethod.GET, RequestMethod.POST})
+	private List<ArtistDTO> artistList(PagingParam dto) {
+		System.out.println("ArtistController artistList()");	
+		System.out.println(dto.toString());
+		
+		int cp = dto.getPage() ;
+		int start = cp * 10 + 1;
+		int end = (cp + 1) * 9;	
+	
+
+		dto.setStart(start);
+		dto.setEnd(end);
+		
+		System.out.println("페이지:"+ cp + "처음:" + start + "끝: " + end);
+		
+		List<ArtistDTO> list = service.artistList(dto);
+		return list;
+
+	}
+	
+	
+	@RequestMapping(value = "/artistCount", method = RequestMethod.GET)
+	private int artistCount(PagingParam pram) {
+		System.out.println("ArtistController artistCount()");
+		System.out.println("검색데이터 확인:" + pram.toString());
+		
+		int count  = service.artistCount(pram);
+		System.out.println("현재 오픈된 총 작가 수 : " + count);
+
+		int pagenum = count/10;
+		if((count %10)>0) {
+			pagenum = pagenum + 1;
+		}
+		System.out.println("페이지수 : " + pagenum);
+		return pagenum;
+
+	}
+	
+	
+	@RequestMapping(value = "/artistDetail", method = {RequestMethod.GET, RequestMethod.POST})
+	private ArtistDTO artistDetail(String artistNo) {
+		System.out.println("ArtistController artistDetail()");
+		ArtistDTO dto = service.artistDetail(artistNo);
+
+		return dto;
+		
+	}
+	
+	
+	
 	
 	
 }
