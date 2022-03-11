@@ -24,4 +24,9 @@ public interface ArtworkDAO {
 	public boolean insertArtworkImage(ArtworkImageDTO artworkImageDTO);
 	public boolean updateArtworkConfig(ArtworkDTO artworkDTO);
 	
+	
+	public List<ArtworkDTO> artistArtwork(String artistNo);
+	
+	
+	
 }

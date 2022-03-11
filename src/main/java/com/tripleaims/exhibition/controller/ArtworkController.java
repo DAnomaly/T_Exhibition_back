@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -54,6 +55,15 @@ public class ArtworkController {
 		return service.insertArtwork(paramMap);
 	}
 	
+	@RequestMapping(value = "/artistArtwork", method = {RequestMethod.GET, RequestMethod.POST})
+	public List<ArtworkDTO> artistArtwork(String artistNo) {
+		System.out.println("ArtworkController artistArtwork()");
+		List<ArtworkDTO> list = service.artistArtwork(artistNo);
+		return list;
+		
+	}
+	
+
 	@PostMapping("selectOneArtwork.do") 
 	public Map<String, Object> selectOneArtwork(String artworkNo) {
 		return service.selectOneArtwork(artworkNo);
