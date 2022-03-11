@@ -170,4 +170,11 @@ public class ArtworkService {
 	}
 	
 	
+	public List<ArtworkDTO> artistArtwork(String artistNo) {
+		return dao.artistArtwork(artistNo);
+	}
+	
+	
+	
+	
 }
