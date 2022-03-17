@@ -1,6 +1,6 @@
 package com.tripleaims.exhibition.dto;
 
-import java.sql.Date;
+import java.util.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,12 +19,6 @@ public class ExhibitionDTO {
 	private String exhibitionNo;
 	private String title;
 	private String content;
-	private String mainArtworkNo;
-	private String mainImageTitle;
-	private String mainImageNo;
-	private String mainImageName;
-	private String mainThum1Name;
-	private String mainThum2Name;
 	private String artistNo;
 	private String artistNameKor;
 	private String artistNameEng;
@@ -33,7 +27,11 @@ public class ExhibitionDTO {
 	private String showYn;
 	private String deleteYn;
 	private Date regDate;
-	private Date eidtDate;
+	private Date editDate;
 	private int hit;
+	private String artworkTitle;
+	private String mainImageName;
+	private String mainThum1Name;
+	private String mainThum2Name;
 	
 }

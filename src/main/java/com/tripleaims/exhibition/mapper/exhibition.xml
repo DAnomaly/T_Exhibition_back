@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.tripleaims.exhibition.dao.ExhibitionDAO">
+
+	<select id="selectExhibition" resultType="ExhibitionDTO">
+		SELECT * FROM EXHIBITION_VIEW
+		<where>
+			<if test="title != null and title != ''">
+				TITLE LIKE CONCAT('%',#{title},'%')
+			</if>
+			<if test="toDate != null">
+				AND START_DATE &gt; #{toDate}
+			</if>
+			<if test="endDate != null">
+				AND START_DATE &lt; #{endDate}
+			</if>
+			AND DELETE_YN = 'N'
+		</where>
+	</select>
+
+	<select id="selectMaxExhibitionNo" resultType="java.lang.String">
+		SELECT MAX(EXHIBITION_NO) FROM EXHIBITION
+	</select>
+
+	<insert id="insertExhibition" parameterType="ExhibitionDTO">
+		INSERT INTO EXHIBITION (`EXHIBITION_NO`, `TITLE`, `CONTENT`, `ARTIST_NO`, `START_DATE`, `REG_DATE`, `EDIT_DATE`)
+		VALUES (#{exhibitionNo}, #{title}, #{content}, #{artistNo}, #{startDate}, NOW(), NOW())
+	</insert>
+
+	<insert id="insertExhibitionArtwork" parameterType="ExhibitionArtworkDTO">
+		INSERT INTO EXHIBITION_ARTWORK (`EXHIBITION_ARTWORK_NO`, `EXHIBITION_NO`, `ARTWORK_NO`, `ORDER_NO`, `REG_DATE`)
+		VALUES (#{exhibitionArtworkNo}, #{exhibitionNo}, #{artworkNo}, #{orderNo}, NOW())
+	</insert>
+
+</mapper>

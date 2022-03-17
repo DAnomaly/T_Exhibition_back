@@ -175,7 +175,14 @@ public class ArtworkService {
 	}
 
 	public Map<String, Object> selectArtworkFromArr(String[] arr) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
 		String param = "";
+		
+		if(arr == null || arr.length == 0) { // arr 없음
+			resultMap.put("result", null);
+			return resultMap;
+		}
+		
 		for (int i = 0; i < arr.length; i++) {
 			String str = arr[i];
 			
@@ -186,7 +193,6 @@ public class ArtworkService {
 			}
 		}
 
-		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("result", dao.selectArtworkFromArr(param));
 		
 		return resultMap;
