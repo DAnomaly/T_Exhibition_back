@@ -64,8 +64,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		 WHERE ARTIST_NO=#{artistNo} AND SHOW_YN = 'Y' AND DELETE_YN = 'N'
 	</select>
 	
-
+	<select id="artworkImage" parameterType="java.lang.String"  resultType="com.tripleaims.exhibition.dto.ArtworkImageDTO">
+		 SELECT FILE_NAME, THUM1_NAME 
+		 FROM artwork_image
+		 WHERE ARTWORK_NO=#{artworkNo} 
+	</select>
 	
+	<select id="artworkInfo" parameterType="java.lang.String"  resultType="com.tripleaims.exhibition.dto.ArtworkDTO">
+		 SELECT TITLE, ARTIST_NO, ARTIST_NAME_KOR, CATEGORY_NAME, MEDIA, `EXPLAIN`, ARTWORK_DATE, APPRAISE_NAME, APPRAISE_COMMENT, APPRAISE_VALUE, SELL_VALUE
+		 FROM artwork_view
+		 WHERE ARTWORK_NO=#{artworkNo} 
+	</select>
 	
 	
 	
