@@ -70,6 +70,8 @@ public class ArtworkService {
 			resultStr.append("alert('작품 등록 실패');\n");
 			resultStr.append("history.back();\n");
 			resultStr.append("</script>\n");
+			
+			return resultStr.toString();
 		}
 		
 		// 이미지 등록
@@ -83,6 +85,11 @@ public class ArtworkService {
 			
 			for (int i = 0; i < images.size(); i++) {
 				MultipartFile image = images.get(i);
+				
+				if(image.getSize() == 0) {
+					continue;
+				}
+				
 				String ext = image.getOriginalFilename().substring(image.getOriginalFilename().lastIndexOf(".") + 1);
 				String filename = "artwork_" + artworkDTO.getArtworkNo() + "_" + (i + 1);
 				String fullFilename = filename + "." + ext;
@@ -167,6 +174,30 @@ public class ArtworkService {
 		return resultStr.toString();
 	}
 
+	public Map<String, Object> selectArtworkFromArr(String[] arr) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		String param = "";
+		
+		if(arr == null || arr.length == 0) { // arr 없음
+			resultMap.put("result", null);
+			return resultMap;
+		}
+		
+		for (int i = 0; i < arr.length; i++) {
+			String str = arr[i];
+			
+			if(i == 0) {
+				param += str;
+			} else {
+				param += "," + str;
+			}
+		}
+
+		resultMap.put("result", dao.selectArtworkFromArr(param));
+		
+		return resultMap;
+	}
+
 	public Map<String, Object> selectOneArtwork(String artworkNo) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		
@@ -176,7 +207,7 @@ public class ArtworkService {
 		
 		return resultMap;
 	}
-
+	
 	public String updateArtwork(ArtworkDTO artworkDTO) {
 		StringBuilder contentBuilder = new StringBuilder();
 		boolean isSuccess = dao.updateArtworkConfig(artworkDTO);
@@ -200,6 +231,8 @@ public class ArtworkService {
 	public List<ArtworkDTO> artistArtwork(String artistNo) {
 		return dao.artistArtwork(artistNo);
 	}
+
+
 	
 	public List<ArtworkImageDTO> artworkImage(String artworkNo) {
 		return dao.artworkImage(artworkNo);

@@ -16,6 +16,7 @@ public interface ArtworkDAO {
 
 	public List<ArtworkDTO> selectAllArtwork(Map<String, Object> paramMap);  
 	public ArtworkDTO selectOneArtwork(String artworkNo);
+	public List<ArtworkDTO> selectArtworkFromArr(String param);
 	public List<ArtworkCategoryDTO> selectAllArtworkCategroy();
 	public List<ArtworkImageDTO> selectArtworkImage(String artworkNo);
 	public String selectMaxArtworkNo();
