@@ -35,4 +35,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		VALUES (#{exhibitionArtworkNo}, #{exhibitionNo}, #{artworkNo}, #{orderNo}, NOW())
 	</insert>
 
+	<select id="exhibitionInfo"  parameterType="java.lang.String" resultType="com.tripleaims.exhibition.dto.ExhibitionDTO">
+		SELECT EXHIBITION_NO, TITLE, CONTENT, ARTIST_NO, START_DATE, OPEN_YN, SHOW_YN, DELETE_YN, REG_DATE, EDIT_DATE, HIT
+		FROM exhibition
+		WHERE EXHIBITION_NO=#{exhibitionNo}
+	</select>
+	
+	<select id="exhibitionList"  parameterType="com.tripleaims.exhibition.dto.ExhibitionDTO" resultType="com.tripleaims.exhibition.dto.ExhibitionDTO">
+		SELECT * FROM exhibition
+		WHERE OPEN_YN =#{openYn} AND SHOW_YN = 'Y'
+	</select>
+
+	<select id="exArtwowrk" parameterType="java.lang.String" resultType="com.tripleaims.exhibition.dto.ArtworkDTO">
+		SELECT e.EXHIBITION_NO, e.ARTWORK_NO, e.ORDER_NO, a.TITLE, a.MAIN_THUM1_NAME, a.SELL_VALUE, a.`EXPLAIN`
+		FROM exhibition_artwork e, artwork_view a
+		WHERE e.ARTWORK_NO= a.ARTWORK_NO AND e.EXHIBITION_NO =#{exhibitionNo} AND a.SHOW_YN = 'Y' AND a.DELETE_YN = 'N'
+		ORDER BY e.ORDER_NO ASC
+	</select>
+
+
+
+
+
+
 </mapper>

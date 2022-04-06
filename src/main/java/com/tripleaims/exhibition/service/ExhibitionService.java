@@ -3,6 +3,7 @@ package com.tripleaims.exhibition.service;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tripleaims.exhibition.dao.ExhibitionDAO;
+import com.tripleaims.exhibition.dto.ArtworkDTO;
 import com.tripleaims.exhibition.dto.ExhibitionArtworkDTO;
 import com.tripleaims.exhibition.dto.ExhibitionDTO;
 import com.tripleaims.exhibition.util.ExhibitionConfig;
@@ -86,5 +88,22 @@ public class ExhibitionService {
 		
 		return returnSb.toString();
 	}
+	
+	
+	public ExhibitionDTO exhibitionInfo(String exhibitionNo) {
+		return dao.exhibitionInfo(exhibitionNo);
+	}
+	
+	public List<ExhibitionDTO> exhibitionList(ExhibitionDTO dto) {
+		return dao.exhibitionList(dto);
+	}
+	
+	
+	public List<ArtworkDTO> exArtwowrk(String exhibitionNo) {
+		return dao.exArtwowrk(exhibitionNo);
+	}
+	
+	
+	
 	
 }

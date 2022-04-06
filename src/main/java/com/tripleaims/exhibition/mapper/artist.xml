@@ -99,5 +99,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE ARTIST_NO=#{artistNo}
 	</select>
 	
+	
+	<select id="artExhibition" parameterType="java.lang.String" resultType="com.tripleaims.exhibition.dto.ExhibitionDTO">
+		SELECT EXHIBITION_NO, TITLE, CONTENT, ARTIST_NO, START_DATE, EDIT_DATE
+		FROM exhibition
+		WHERE ARTIST_NO=#{artistNo} AND SHOW_YN='Y'
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 </mapper>
