@@ -14,6 +14,7 @@ import com.tripleaims.exhibition.dao.ExhibitionDAO;
 import com.tripleaims.exhibition.dto.ArtworkDTO;
 import com.tripleaims.exhibition.dto.ExhibitionArtworkDTO;
 import com.tripleaims.exhibition.dto.ExhibitionDTO;
+import com.tripleaims.exhibition.dto.PagingParam;
 import com.tripleaims.exhibition.util.ExhibitionConfig;
 
 @Service
@@ -94,8 +95,20 @@ public class ExhibitionService {
 		return dao.exhibitionInfo(exhibitionNo);
 	}
 	
-	public List<ExhibitionDTO> exhibitionList(ExhibitionDTO dto) {
-		return dao.exhibitionList(dto);
+	public List<ExhibitionDTO> crrentList(PagingParam dto) {
+		return dao.crrentList(dto);
+	}
+	
+	public int  currentCount(PagingParam pram) {
+		return dao.currentCount(pram);
+	}
+	
+	public List<ExhibitionDTO> pastList(PagingParam dto) {
+		return dao.pastList(dto);
+	}
+	
+	public int  pastCount(PagingParam pram) {
+		return dao.pastCount(pram);
 	}
 	
 	
