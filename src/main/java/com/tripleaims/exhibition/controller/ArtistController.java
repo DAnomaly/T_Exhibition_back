@@ -186,9 +186,7 @@ public class ArtistController {
 		
 	}
 	
-	
-	
-	
+	//asd hsjdfiha jkadsfghy giluhasuig hyask
 	
 }
 
