@@ -49,10 +49,10 @@ public class ExhibitionController {
 		return service.addExhibition(paramMap);
 	}
 
-	@RequestMapping(value = "/exhibitionInfo", method = {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value={"exhibitionInfo","exhibitionInfo.do"})
 	private ExhibitionDTO exhibitionInfo(String exhibitionNo) {
 		
-		System.out.println("ExhibitionController exhibitionInfo()");
+		System.out.println("ExhibitionController exhibitionInfo() : exhibitionNo=" + exhibitionNo);
 		ExhibitionDTO dto = service.exhibitionInfo(exhibitionNo);
 
 		return dto;
