@@ -27,7 +27,7 @@ public interface ArtworkDAO {
 	
 	
 	public List<ArtworkDTO> artistArtwork(String artistNo);
-	
-	
+	public List<ArtworkImageDTO> artworkImage(String artworkNo);
+	public ArtworkDTO artworkInfo(String artworkNo);
 	
 }

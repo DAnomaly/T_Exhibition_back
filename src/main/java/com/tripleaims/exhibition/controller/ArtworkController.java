@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.tripleaims.exhibition.dto.ArtworkDTO;
+import com.tripleaims.exhibition.dto.ArtworkImageDTO;
 import com.tripleaims.exhibition.service.ArtworkService;
 
 import lombok.AllArgsConstructor;
@@ -84,5 +85,25 @@ public class ArtworkController {
 		return list;
 		
 	}
+	
+	@RequestMapping(value = "/artworkImage", method = {RequestMethod.GET, RequestMethod.POST})
+	public List<ArtworkImageDTO> artworkImage(String artworkNo) {
+		System.out.println("ArtworkController artworkImage()");
+		
+		List<ArtworkImageDTO> list = service.artworkImage(artworkNo);
+		return list;
+		
+	}
+	
+	
+	@RequestMapping(value = "/artworkInfo", method = {RequestMethod.GET, RequestMethod.POST})
+	public ArtworkDTO artworkInfo(String artworkNo) {
+		System.out.println("ArtworkController artworkInfo()");
+		
+		ArtworkDTO dto  = service.artworkInfo(artworkNo);
+		return dto;
+	}
+	
+	
 	
 }

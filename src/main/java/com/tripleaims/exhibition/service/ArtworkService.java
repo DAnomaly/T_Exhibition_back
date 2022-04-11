@@ -234,7 +234,13 @@ public class ArtworkService {
 
 
 	
+	public List<ArtworkImageDTO> artworkImage(String artworkNo) {
+		return dao.artworkImage(artworkNo);
+	}
 	
+	public ArtworkDTO artworkInfo(String artworkNo) {
+		return dao.artworkInfo(artworkNo);
+	}
 	
 	
 }

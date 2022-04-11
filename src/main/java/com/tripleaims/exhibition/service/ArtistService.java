@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.tripleaims.exhibition.dao.ArtistDAO;
 import com.tripleaims.exhibition.dto.ArtistAddressDTO;
 import com.tripleaims.exhibition.dto.ArtistDTO;
+import com.tripleaims.exhibition.dto.ExhibitionDTO;
 import com.tripleaims.exhibition.dto.PagingParam;
 import com.tripleaims.exhibition.util.ExhibitionConfig;
 
@@ -299,6 +300,10 @@ public class ArtistService {
 	
 	public ArtistDTO artistDetail(String artistNo) {
 		return dao.artistDetail(artistNo);
+	}
+	
+	public List<ExhibitionDTO> artExhibition(String artistNo) {
+		return dao.artExhibition(artistNo);
 	}
 	
 	

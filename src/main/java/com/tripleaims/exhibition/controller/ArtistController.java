@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.tripleaims.exhibition.dto.ArtistDTO;
+import com.tripleaims.exhibition.dto.ExhibitionDTO;
 import com.tripleaims.exhibition.dto.PagingParam;
 import com.tripleaims.exhibition.service.ArtistService;
 
@@ -186,7 +187,14 @@ public class ArtistController {
 		
 	}
 	
-	//asd hsjdfiha jkadsfghy giluhasuig hyask
+	@RequestMapping(value = "/artExhibition", method = {RequestMethod.GET, RequestMethod.POST})
+	private List<ExhibitionDTO> artExhibition(String artistNo) {
+		System.out.println("ArtistController artExhibition()");
+		 List<ExhibitionDTO> list = service.artExhibition(artistNo);
+		
+		return list;
+		
+	}
 	
 }
 
