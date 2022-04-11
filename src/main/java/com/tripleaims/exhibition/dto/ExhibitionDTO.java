@@ -19,6 +19,7 @@ public class ExhibitionDTO {
 	private String exhibitionNo;
 	private String title;
 	private String content;
+	private String mainImageName;
 	private String artistNo;
 	private String artistNameKor;
 	private String artistNameEng;
@@ -30,8 +31,4 @@ public class ExhibitionDTO {
 	private Date editDate;
 	private int hit;
 	private String artworkTitle;
-	private String mainImageName;
-	private String mainThum1Name;
-	private String mainThum2Name;
-	
 }
