@@ -36,8 +36,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 
 	<select id="exhibitionInfo"  parameterType="java.lang.String" resultType="com.tripleaims.exhibition.dto.ExhibitionDTO">
-		SELECT EXHIBITION_NO, TITLE, CONTENT, ARTIST_NO, START_DATE, OPEN_YN, SHOW_YN, DELETE_YN, REG_DATE, EDIT_DATE, HIT
-		FROM exhibition
+		SELECT *
+		FROM exhibition_view
 		WHERE EXHIBITION_NO=#{exhibitionNo}
 	</select>
 	
