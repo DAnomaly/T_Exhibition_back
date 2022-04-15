@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,8 +26,9 @@ import lombok.AllArgsConstructor;
 public class ExhibitionController {
 
 	private ExhibitionService service;
-	
-	@RequestMapping("selectExhibition.do")
+
+	// 전시회 검색
+	@RequestMapping(value={"selectExhibition","selectExhibition.do"})
 	public Map<String, Object> selectExhibition(String title, @DateTimeFormat(pattern="yyyy-MM-dd") Date toDate, @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("title", title);
@@ -36,8 +38,9 @@ public class ExhibitionController {
 		return service.selectExhibition(paramMap);
 	}
 	
+	// 전시회 추가
 	@SuppressWarnings("deprecation")
-	@RequestMapping("addExhibition.do")
+	@RequestMapping(value={"addExhibition","addExhibition.do"})
 	public String addExhibition(ExhibitionDTO dto, @DateTimeFormat(pattern="yyyy-MM-dd") Date sDate, int sHours, int sMins, String artworks) {
 		sDate.setHours(sHours);
 		sDate.setMinutes(sMins);
@@ -58,7 +61,7 @@ public class ExhibitionController {
 		return dto;
 	}
 	
-	@RequestMapping(value = "/crrentList", method = {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value={"crrentList","crrentList.do"})
 	private List<ExhibitionDTO> crrentList(PagingParam dto) {
 		
 		System.out.println("ExhibitionController crrentList()");
@@ -78,8 +81,7 @@ public class ExhibitionController {
 		return List;
 	}
 	
-	
-	@RequestMapping(value = "/currentCount", method = RequestMethod.GET)
+	@GetMapping(value={"currentCount","currentCount.do"})
 	private int currentCount(PagingParam pram) {
 		System.out.println("ExhibitionController currentCount()");
 		System.out.println("검색데이터 확인:" + pram.toString());
@@ -96,7 +98,7 @@ public class ExhibitionController {
 
 	}
 	
-	@RequestMapping(value = "/pastList", method = {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value={"pastList","pastList.do"})
 	private List<ExhibitionDTO> pastList(PagingParam dto) {
 		
 		System.out.println("ExhibitionController pastList()");
@@ -117,7 +119,7 @@ public class ExhibitionController {
 	}
 	
 	
-	@RequestMapping(value = "/pastCount", method = RequestMethod.GET)
+	@GetMapping(value={"pastCount","pastCount.do"})
 	private int pastCount(PagingParam pram) {
 		System.out.println("ExhibitionController pastCount()");
 		System.out.println("검색데이터 확인:" + pram.toString());
@@ -134,8 +136,8 @@ public class ExhibitionController {
 		
 	}
 	
-	@RequestMapping(value = "/exArtwowrk", method = {RequestMethod.GET, RequestMethod.POST})
-	private List<ArtworkDTO> exArtwowrk(String exhibitionNo) {
+	@RequestMapping(value={"exArtwork","exArtwork.do"})
+	private List<ArtworkDTO> exArtwork(String exhibitionNo) {
 		
 		System.out.println("ExhibitionController exArtwowrk()");
 		List<ArtworkDTO> List = service.exArtwowrk(exhibitionNo);

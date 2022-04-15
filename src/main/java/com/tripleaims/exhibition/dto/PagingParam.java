@@ -1,7 +1,5 @@
 package com.tripleaims.exhibition.dto;
 
-import java.sql.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,13 +18,5 @@ public class PagingParam {
 	private int page;
 	private int start;
 	private int end;
-	
-	
-	
-	
-	
-	
-	
-	
 	
 }
