@@ -177,6 +177,22 @@ public class ExhibitionService {
 		// Return ResultMap
 		return resultMap;
 	}
+
+
+	/*
+	 * 전시회 작품 조회
+	 * status == 'true'이면 전시회에 등록된 작품들을 조회
+	 * 아니면 해당 작가의 해당 전시회에 등록되지 않은 작품들을 조회한다.
+	 */
+	public Map<String, Object> artworkList(Map<String, Object> paramMap) {
+		String exhibitionNo = (String)paramMap.get("exhibitionNo");
+		String artistNo = (String)paramMap.get("artistNo");
+		boolean status = ((String)paramMap.get("status")).equals("true");
+
+		// TODO : 전시회 작품 조회 작업필요
+		
+		return null;
+	}
 	
 	public ExhibitionDTO exhibitionInfo(String exhibitionNo) {
 		return dao.exhibitionInfo(exhibitionNo);
@@ -203,9 +219,4 @@ public class ExhibitionService {
 		return dao.exArtwowrk(exhibitionNo);
 	}
 
-
-	
-	
-	
-	
 }

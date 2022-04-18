@@ -89,6 +89,22 @@ public class ExhibitionController {
 		return service.changeExhibitionImage(paramMap);
 	}
 	
+	/*
+	 * 전시회 작품 조회
+	 * status == 'true'이면 전시회에 등록된 작품들을 조회
+	 * 아니면 해당 작가의 해당 전시회에 등록되지 않은 작품들을 조회한다.
+	 */
+	@GetMapping(value= {"artworkList","artworkList.do"})
+	public Map<String, Object> artworkList(String exhibitionNo, String artistNo, String status) {
+		
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("exhibitionNo", exhibitionNo);
+		paramMap.put("artistNo", artistNo);
+		paramMap.put("status", status);
+		
+		return service.artworkList(paramMap);
+	}
+	
 	@RequestMapping(value={"exhibitionInfo","exhibitionInfo.do"})
 	private ExhibitionDTO exhibitionInfo(String exhibitionNo) {
 		
