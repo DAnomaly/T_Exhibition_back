@@ -8,9 +8,10 @@ import java.util.Map;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.tripleaims.exhibition.dto.ArtworkDTO;
 import com.tripleaims.exhibition.dto.ExhibitionDTO;
@@ -52,6 +53,42 @@ public class ExhibitionController {
 		return service.addExhibition(paramMap);
 	}
 
+	// 전시회 수정
+	@SuppressWarnings("deprecation")
+	@PostMapping(value={"editExhibition","editExhibition.do"})
+	public Map<String, Object> editExhibition(ExhibitionDTO dto, @DateTimeFormat(pattern="yyyy-MM-dd") Date sDate, int sHours, int sMins, String statusSelect) {
+		sDate.setHours(sHours);
+		sDate.setMinutes(sMins);
+		dto.setStartDate(sDate);
+		
+		if(statusSelect.equals("status3")) {
+			dto.setOpenYn("Y");
+			dto.setShowYn("Y");
+		} else if(statusSelect.equals("status2")) {
+			dto.setOpenYn("N");
+			dto.setShowYn("Y");
+		} else {
+			dto.setOpenYn("N");
+			dto.setShowYn("N");
+		}
+		
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("exhibition", dto);
+		
+		return service.editExhibition(paramMap);
+	}
+	
+	// 전시회 대표 이미지 수정
+	@PostMapping(value={"changeExhibitionImage","changeExhibitionImage.do"})
+	public Map<String, Object> changeExhibitionImage(String exhibitionNo, MultipartFile mainImageName) {
+		
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("exhibitionNo", exhibitionNo);
+		paramMap.put("mainImage", mainImageName);
+		
+		return service.changeExhibitionImage(paramMap);
+	}
+	
 	@RequestMapping(value={"exhibitionInfo","exhibitionInfo.do"})
 	private ExhibitionDTO exhibitionInfo(String exhibitionNo) {
 		

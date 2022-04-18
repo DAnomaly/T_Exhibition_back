@@ -1,5 +1,6 @@
 package com.tripleaims.exhibition.service;
 
+import java.io.File;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
@@ -9,6 +10,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.tripleaims.exhibition.dao.ExhibitionDAO;
 import com.tripleaims.exhibition.dto.ArtworkDTO;
@@ -24,6 +26,7 @@ public class ExhibitionService {
 	@Autowired
 	ExhibitionDAO dao;
 
+	// 전시회 목록 검색
 	public Map<String, Object> selectExhibition(Map<String, Object> paramMap) {
 		// Get Parameters
 		Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -32,6 +35,7 @@ public class ExhibitionService {
 		return resultMap;
 	}
 
+	// 전시회 추가
 	public String addExhibition(Map<String, Object> paramMap) {
 		
 		// Get now
@@ -89,7 +93,90 @@ public class ExhibitionService {
 		
 		return returnSb.toString();
 	}
-	
+
+	// 전시회 내용 변경
+	public Map<String, Object> editExhibition(Map<String, Object> paramMap) {
+		
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("Connect", true); // Connect 확인
+		
+		System.out.println("editExhibition(): " + paramMap);
+		
+		boolean isEdit = dao.updateExhibition((ExhibitionDTO)paramMap.get("exhibition"));
+		resultMap.put("isEdit", isEdit);
+		
+		return resultMap;
+	}
+
+	// 전시회 이미지 변경
+	public Map<String, Object> changeExhibitionImage(Map<String, Object> paramMap) {
+		// Get Parameter
+		String exhibitionNo = (String)paramMap.get("exhibitionNo");
+		MultipartFile originalFile = (MultipartFile)paramMap.get("mainImage");
+		
+		// Set ResultMap
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("Connect", true); // Connect 확인
+		resultMap.put("ExceptionMessage", null);
+		
+		// Generate Image File
+		resultMap.put("Generate", false);
+		resultMap.put("GenerateMessage",null);
+		
+		String filePath = "", fullFilePath = "", ext = "", fileName = "", fullFileName = "";
+		if(originalFile.getSize() == 0) {
+			resultMap.put("Generate", false);
+			resultMap.put("GenerateMessage", "getSize(): 0");
+		} else {
+			try {
+				filePath =  "/assets/exhibition/mainImage";
+				fullFilePath = ExhibitionConfig.FRONT_PATH + filePath;
+				ext = originalFile.getOriginalFilename().substring(originalFile.getOriginalFilename().lastIndexOf(".") + 1);
+				fileName = "EMI_" + exhibitionNo;
+				fullFileName = fileName + "." + ext;
+
+				File folder = new File(fullFilePath);
+				if(!folder.exists()) folder.mkdirs();
+
+				File file = new File(folder, fullFileName);
+				originalFile.transferTo(file);
+
+				resultMap.put("Generate", true);
+				resultMap.put("GenerateMessage", "파일저장성공");
+			} catch (Exception e) {
+				resultMap.put("Generate", false);
+				resultMap.put("GenerateMessage", "파일저장실패");
+				resultMap.put("ExceptionMessage", e.getMessage());
+			}
+		}
+		
+		// Update DB data
+		resultMap.put("InsertDB", false);
+		resultMap.put("InsertDBMessage",null);
+		if((boolean)resultMap.get("Generate")) {
+			try {
+				boolean isUpdate = dao.updateExhibitionMainImage(filePath + "/" + fullFileName, exhibitionNo);
+				if(isUpdate) {
+					resultMap.put("InsertDB", true);
+					resultMap.put("InsertDBMessage", "변경내용수정됨");
+				} else {
+					resultMap.put("InsertDB", false);
+					resultMap.put("InsertDBMessage", "변경내용없음");
+				}
+			} catch (Exception e) {
+				resultMap.put("InsertDB", false);
+				resultMap.put("InsertDBMessage", "변경내용없음");
+				resultMap.put("ExceptionMessage", e.getMessage());
+			}
+		}
+		
+		// Show Log
+		System.out.println("changeExhibitionImage(): exhibitionNo=" + exhibitionNo + ", fileName=" + originalFile.getName());
+		System.out.println("changeExhibitionImage(): " + resultMap.toString());
+		
+		// Return ResultMap
+		return resultMap;
+	}
 	
 	public ExhibitionDTO exhibitionInfo(String exhibitionNo) {
 		return dao.exhibitionInfo(exhibitionNo);
@@ -115,6 +202,8 @@ public class ExhibitionService {
 	public List<ArtworkDTO> exArtwowrk(String exhibitionNo) {
 		return dao.exArtwowrk(exhibitionNo);
 	}
+
+
 	
 	
 	

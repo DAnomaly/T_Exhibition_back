@@ -19,6 +19,8 @@ public interface ExhibitionDAO {
 	public String selectMaxExhibitionNo();
 	public boolean insertExhibition(ExhibitionDTO dto);
 	public boolean insertExhibitionArtwork(ExhibitionArtworkDTO dto);
+	public boolean updateExhibition(ExhibitionDTO dto);
+	public boolean updateExhibitionMainImage(String mainImageName, String exhibitionNo);
 	
 	public ExhibitionDTO exhibitionInfo(String exhibitionNo);
 	
