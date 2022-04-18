@@ -35,6 +35,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		VALUES (#{exhibitionArtworkNo}, #{exhibitionNo}, #{artworkNo}, #{orderNo}, NOW())
 	</insert>
 
+	<update id="updateExhibition" parameterType="ExhibitionDTO">
+		UPDATE exhibition
+		   SET TITLE = #{title}, CONTENT = #{content}, START_DATE = #{startDate}, OPEN_YN = #{openYn}, SHOW_YN = #{showYn}, EDIT_DATE = NOW()
+		 WHERE EXHIBITION_NO = #{exhibitionNo}
+	</update>
+	
+	<update id="updateExhibitionMainImage" parameterType="java.lang.String">
+		UPDATE exhibition
+		   SET MAIN_IMAGE_NAME = #{param1}
+		 WHERE EXHIBITION_NO = #{param2}
+	</update>
+
 	<select id="exhibitionInfo"  parameterType="java.lang.String" resultType="com.tripleaims.exhibition.dto.ExhibitionDTO">
 		SELECT *
 		FROM exhibition_view
@@ -89,11 +101,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE e.ARTWORK_NO= a.ARTWORK_NO AND e.EXHIBITION_NO =#{exhibitionNo} AND a.SHOW_YN = 'Y' AND a.DELETE_YN = 'N'
 		ORDER BY e.ORDER_NO ASC
 	</select>
+
 	
-
-
-
-
-
-
 </mapper>
