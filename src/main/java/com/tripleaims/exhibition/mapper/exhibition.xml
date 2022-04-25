@@ -102,5 +102,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		ORDER BY e.ORDER_NO ASC
 	</select>
 
+	<select id="selectExhibitionArtworks" parameterType="java.lang.String" resultType="ArtworkDTO">
+		   SELECT T2.ARTWORK_NO, T2.TITLE, T1.ORDER_NO
+		     FROM exhibition_artwork T1
+		LEFT JOIN artwork_view T2
+		       ON T1.ARTWORK_NO = T2.ARTWORK_NO
+		    WHERE T1.EXHIBITION_NO = #{param1}
+		 ORDER BY T1.ORDER_NO;
+	</select>
+
+	<select id="selectNotExhibitionArtworks" parameterType="java.lang.String" resultType="ArtworkDTO">
+		SELECT T1.*
+		  FROM artwork_view T1
+		 WHERE T1.ARTIST_NO = #{param2}
+		   AND T1.ARTWORK_NO NOT IN
+		       (SELECT T2.ARTWORK_NO FROM exhibition_artwork T2 WHERE T2.EXHIBITION_NO = #{param1});
+	</select>
 	
 </mapper>

@@ -32,4 +32,9 @@ public interface ExhibitionDAO {
 	
 	public List<ArtworkDTO> exArtwowrk(String exhibitionNo);
 	
+	// 해당 전시회의 작품목록
+	public List<ArtworkDTO> selectExhibitionArtworks(String exhibitionNo, String artistNo);
+	// 해당 작가의 해당 전시회에 등록되지 않은 작품목록
+	public List<ArtworkDTO> selectNotExhibitionArtworks(String exhibitionNo, String artistNo);
+	
 }

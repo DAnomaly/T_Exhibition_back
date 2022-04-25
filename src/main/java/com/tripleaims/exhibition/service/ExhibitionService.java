@@ -179,19 +179,49 @@ public class ExhibitionService {
 	}
 
 
-	/*
-	 * 전시회 작품 조회
-	 * status == 'true'이면 전시회에 등록된 작품들을 조회
+	/**
+	 * <b>전시회 작품 조회</b><br/>
+	 * status의 값이 'true'이면 전시회에 등록된 작품들을 조회
 	 * 아니면 해당 작가의 해당 전시회에 등록되지 않은 작품들을 조회한다.
+	 * 
+	 * @param paramMap : 파라미터Map
+	 * @return 응답Map
 	 */
 	public Map<String, Object> artworkList(Map<String, Object> paramMap) {
+		// Get Parameters
 		String exhibitionNo = (String)paramMap.get("exhibitionNo");
 		String artistNo = (String)paramMap.get("artistNo");
 		boolean status = ((String)paramMap.get("status")).equals("true");
 
-		// TODO : 전시회 작품 조회 작업필요
-		
-		return null;
+		// Set ResultMap
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("Connect", true); // Connect 확인
+		resultMap.put("ExceptionMessage", null);
+
+		// Get Artwork List
+		List<ArtworkDTO> artworkList = null;
+		resultMap.put("isWork", false);
+		resultMap.put("artworkList", null);
+		try {
+			
+			if(status == true) {
+				artworkList = dao.selectExhibitionArtworks(exhibitionNo, artistNo);
+			} else {
+				artworkList = dao.selectNotExhibitionArtworks(exhibitionNo, artistNo);
+			}
+			resultMap.put("isWork", true);
+			resultMap.put("artworkList", artworkList);
+			
+		} catch (Exception e) {
+			resultMap.put("isWork", false);
+			resultMap.put("ExceptionMessage", e.getMessage());
+		}
+
+		// Show Log
+		System.out.println("artworkList(): " + paramMap.toString());
+
+		// Return ResultMap
+		return resultMap;
 	}
 	
 	public ExhibitionDTO exhibitionInfo(String exhibitionNo) {
