@@ -4,8 +4,13 @@ import java.io.File;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -249,4 +254,163 @@ public class ExhibitionService {
 		return dao.exArtwowrk(exhibitionNo);
 	}
 
+	/** 전시회에 작품을 추가한다 */
+	public Map<String, Object> addArtworks(Map<String, Object> paramMap) {
+		// Get Parameters
+		String exhibitionNo = (String)paramMap.get("exhibitionNo");
+		String[] artworkNo = (String[])paramMap.get("artworkNo");
+		
+		// Set ResultMap
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("Connect", true); // Connect 확인
+		resultMap.put("result", false);
+		resultMap.put("message", null);
+		resultMap.put("ExceptionMessage", null);
+		
+		// Get Exhibition's Info (artworks)
+		List<ArtworkDTO> artworks = dao.selectExhibitionArtworks(exhibitionNo, null);
+		
+		// Setting artworksNo
+		Set<String> regArtworkNo = new HashSet<String>();
+		for (ArtworkDTO artwork : artworks) {
+			regArtworkNo.add(artwork.getArtworkNo());
+		}
+		
+		// insert ExhibitionArtwork
+		int orderNo = artworks.size() + 1;
+		try {
+			for (String no : artworkNo) {
+				if(!regArtworkNo.contains(no)) {
+					ExhibitionArtworkDTO dto = new ExhibitionArtworkDTO();
+					String exhibitionArtworkNo = String.format("%s%03d", exhibitionNo, orderNo);
+					dto.setExhibitionArtworkNo(exhibitionArtworkNo);
+					dto.setExhibitionNo(exhibitionNo);
+					dto.setArtworkNo(no);
+					dto.setOrderNo(orderNo);
+
+					dao.insertExhibitionArtwork(dto);
+					
+					orderNo++;
+				}
+			}
+			
+			resultMap.put("result", true);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			resultMap.put("result", false);
+			resultMap.put("message", "등록 중 오류가 발생했습니다.");
+			resultMap.put("ExceptionMessage", e.getMessage());
+		}
+		
+		// return result
+		return resultMap;
+	}
+
+	
+	/** 전시회에 작품을 제거한다 */
+	public Map<String, Object> removeArtworks(Map<String, Object> paramMap) {
+		// Get Parameters
+		String exhibitionNo = (String)paramMap.get("exhibitionNo");
+		String[] artworkNo = (String[])paramMap.get("artworkNo");
+
+		// Set ResultMap
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("Connect", true); // Connect 확인
+		resultMap.put("result", false);
+		resultMap.put("message", null);
+		resultMap.put("ExceptionMessage", null);
+		
+		// Delete exhibition_artwork
+		try {
+			for (String no : artworkNo) {
+				dao.deleteExhibitionArtwork(exhibitionNo, no);
+			}
+
+			resultMap.put("result", true);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			resultMap.put("result", false);
+			resultMap.put("message", "삭제 중 오류가 발생했습니다.");
+			resultMap.put("ExceptionMessage", e.getMessage());
+			
+		}
+		
+		return resultMap;
+	}
+
+	/** 전시회 작품 순서를 변경합니다 */
+	public Map<String, Object> replaceOrder(Map<String, Object> paramMap) {
+		// Log
+		System.out.println("ExhibitionService:replaceOrder()");
+		
+		// Get Parameters
+		HttpServletRequest request = (HttpServletRequest)paramMap.get("request");
+		String exhibitionNo = (String)paramMap.get("exhibitionNo");
+		
+		// Set ResultMap
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("Connect", true); // Connect 확인
+		resultMap.put("result", false);
+		resultMap.put("message", null);
+		resultMap.put("ExceptionMessage", null);
+
+		// Get Exhibition's Info (artworks)
+		List<ArtworkDTO> artworks = dao.selectExhibitionArtworks(exhibitionNo, null);
+		
+		// Delete Exhibition's Info (artworks)
+		dao.deleteAllExhibitionArtwork(exhibitionNo);
+		
+		// Order Artwork For Registing Exhibition
+		Map<String, Integer> orderMap = new HashMap<>();
+		for (ArtworkDTO dto : artworks) {
+			String artworkNo = dto.getArtworkNo();
+			if(request.getParameter(artworkNo) != null) {
+				int orderNo = Integer.parseInt((String)request.getParameter(artworkNo));
+				orderMap.put(artworkNo, orderNo);
+			}
+		}
+		List<Map.Entry<String, Integer>> entryList = new LinkedList<Map.Entry<String,Integer>>(orderMap.entrySet());
+		entryList.sort(Map.Entry.comparingByValue());
+		
+		System.out.println("ExhibitionNo:" + exhibitionNo);
+		System.out.println("orderMap:" + orderMap);
+		
+		// Insert Exhibition_Artwork
+		int orderNo = 0;
+		int successCnt = 0;
+		for (Map.Entry<String, Integer> entry : entryList) { 
+			String artworkNo = entry.getKey();
+			orderNo++;
+			
+			System.out.println(artworkNo + ": order-" + orderNo);
+			
+			ExhibitionArtworkDTO dto = new ExhibitionArtworkDTO();
+			dto.setExhibitionArtworkNo(String.format("%s%03d", exhibitionNo, orderNo));
+			dto.setExhibitionNo(exhibitionNo);
+			dto.setArtworkNo(artworkNo);
+			dto.setOrderNo(orderNo);
+			
+			boolean isInsert = dao.insertExhibitionArtwork(dto);
+			if(isInsert) successCnt++;
+		}
+		
+		// Check Result
+		if(successCnt == artworks.size()) {
+			resultMap.put("result", true);
+			resultMap.put("message", "성공");
+			resultMap.put("ExceptionMessage", null);
+		} else {
+			resultMap.put("result", false);
+			resultMap.put("message", "등록되지 못한 작품이 있습니다. 확인이 필요합니다.");
+			resultMap.put("ExceptionMessage", null);
+		}
+		
+		// Return Result
+		return resultMap;
+		
+	}
+	
+	
 }

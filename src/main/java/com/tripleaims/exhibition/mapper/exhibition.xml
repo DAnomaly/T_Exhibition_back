@@ -35,6 +35,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		VALUES (#{exhibitionArtworkNo}, #{exhibitionNo}, #{artworkNo}, #{orderNo}, NOW())
 	</insert>
 
+	<delete id="deleteExhibitionArtwork" parameterType="java.lang.String">
+		DELETE FROM exhibition_artwork WHERE EXHIBITION_NO = #{param1} AND ARTWORK_NO = #{param2}
+	</delete>
+	
+	<delete id="deleteAllExhibitionArtwork" parameterType="java.lang.String">
+		DELETE FROM exhibition_artwork WHERE EXHIBITION_NO = #{param1}
+	</delete>
+	
 	<update id="updateExhibition" parameterType="ExhibitionDTO">
 		UPDATE exhibition
 		   SET TITLE = #{title}, CONTENT = #{content}, START_DATE = #{startDate}, OPEN_YN = #{openYn}, SHOW_YN = #{showYn}, EDIT_DATE = NOW()
@@ -118,5 +126,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		   AND T1.ARTWORK_NO NOT IN
 		       (SELECT T2.ARTWORK_NO FROM exhibition_artwork T2 WHERE T2.EXHIBITION_NO = #{param1});
 	</select>
+	
+	
 	
 </mapper>

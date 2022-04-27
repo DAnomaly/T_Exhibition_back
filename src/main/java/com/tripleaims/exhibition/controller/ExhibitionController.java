@@ -5,11 +5,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -106,7 +109,7 @@ public class ExhibitionController {
 	}
 	
 	@RequestMapping(value={"exhibitionInfo","exhibitionInfo.do"})
-	private ExhibitionDTO exhibitionInfo(String exhibitionNo) {
+	public ExhibitionDTO exhibitionInfo(String exhibitionNo) {
 		
 		System.out.println("ExhibitionController exhibitionInfo() : exhibitionNo=" + exhibitionNo);
 		ExhibitionDTO dto = service.exhibitionInfo(exhibitionNo);
@@ -115,7 +118,7 @@ public class ExhibitionController {
 	}
 	
 	@RequestMapping(value={"crrentList","crrentList.do"})
-	private List<ExhibitionDTO> crrentList(PagingParam dto) {
+	public List<ExhibitionDTO> crrentList(PagingParam dto) {
 		
 		System.out.println("ExhibitionController crrentList()");
 		System.out.println(dto.toString());
@@ -135,7 +138,7 @@ public class ExhibitionController {
 	}
 	
 	@GetMapping(value={"currentCount","currentCount.do"})
-	private int currentCount(PagingParam pram) {
+	public int currentCount(PagingParam pram) {
 		System.out.println("ExhibitionController currentCount()");
 		System.out.println("검색데이터 확인:" + pram.toString());
 		
@@ -152,7 +155,7 @@ public class ExhibitionController {
 	}
 	
 	@RequestMapping(value={"pastList","pastList.do"})
-	private List<ExhibitionDTO> pastList(PagingParam dto) {
+	public List<ExhibitionDTO> pastList(PagingParam dto) {
 		
 		System.out.println("ExhibitionController pastList()");
 		System.out.println(dto.toString());
@@ -173,7 +176,7 @@ public class ExhibitionController {
 	
 	
 	@GetMapping(value={"pastCount","pastCount.do"})
-	private int pastCount(PagingParam pram) {
+	public int pastCount(PagingParam pram) {
 		System.out.println("ExhibitionController pastCount()");
 		System.out.println("검색데이터 확인:" + pram.toString());
 		
@@ -190,7 +193,7 @@ public class ExhibitionController {
 	}
 	
 	@RequestMapping(value={"exArtwork","exArtwork.do"})
-	private List<ArtworkDTO> exArtwork(String exhibitionNo) {
+	public List<ArtworkDTO> exArtwork(String exhibitionNo) {
 		
 		System.out.println("ExhibitionController exArtwowrk()");
 		List<ArtworkDTO> List = service.exArtwowrk(exhibitionNo);
@@ -198,9 +201,38 @@ public class ExhibitionController {
 		return List;
 	}
 	
+	// 전시회 작품 추가 
+	@PostMapping(value= {"addArtworks","addArtworks.do"})
+	public Map<String, Object> addArtworks(String exhibitionNo, String[] artworkNo) {
+		
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("exhibitionNo", exhibitionNo);
+		paramMap.put("artworkNo", artworkNo);
+		
+		return service.addArtworks(paramMap);
+	}
 	
+	// 전시회 작품 제거
+	@PostMapping(value= {"removeArtworks","removeArtworks.do"})
+	public Map<String, Object> removeArtworks(String exhibitionNo, String[] artworkNo) {
 	
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("exhibitionNo", exhibitionNo);
+		paramMap.put("artworkNo", artworkNo);
+		
+		return service.removeArtworks(paramMap);
+	}
 	
+	// 전시회 작품 순서 수정
+	@PostMapping(value= {"replaceOrder","replaceOrder.do"})
+	public Map<String, Object> replaceOrder(HttpServletRequest request) {
+		
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("exhibitionNo", request.getParameter("exhibitionNo"));
+		paramMap.put("request", request);
+		
+		return service.replaceOrder(paramMap);
+	}
 	
 	
 }
