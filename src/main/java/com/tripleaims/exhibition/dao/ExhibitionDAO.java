@@ -19,6 +19,8 @@ public interface ExhibitionDAO {
 	public String selectMaxExhibitionNo();
 	public boolean insertExhibition(ExhibitionDTO dto);
 	public boolean insertExhibitionArtwork(ExhibitionArtworkDTO dto);
+	public boolean deleteExhibitionArtwork(String exhibitionNo, String artworkNo);
+	public boolean deleteAllExhibitionArtwork(String exhibitionNo);
 	public boolean updateExhibition(ExhibitionDTO dto);
 	public boolean updateExhibitionMainImage(String mainImageName, String exhibitionNo);
 	
@@ -31,5 +33,13 @@ public interface ExhibitionDAO {
 	int pastCount(PagingParam pram);
 	
 	public List<ArtworkDTO> exArtwowrk(String exhibitionNo);
+	
+	// 해당 전시회의 작품목록
+	public List<ArtworkDTO> selectExhibitionArtworks(String exhibitionNo, String artistNo);
+	// 해당 작가의 해당 전시회에 등록되지 않은 작품목록
+	public List<ArtworkDTO> selectNotExhibitionArtworks(String exhibitionNo, String artistNo);
+	// 전시회에서 작품 제거
+	
+	
 	
 }

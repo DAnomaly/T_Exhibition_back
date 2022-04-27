@@ -31,4 +31,5 @@ public class ExhibitionDTO {
 	private Date editDate;
 	private int hit;
 	private String artworkTitle;
+	private int orderNo; // exhibition_artwork : ORDER_NO
 }
