@@ -138,11 +138,11 @@ public class ExhibitionController {
 	}
 	
 	@GetMapping(value={"currentCount","currentCount.do"})
-	public int currentCount(PagingParam pram) {
+	public int currentCount(PagingParam param) {
 		System.out.println("ExhibitionController currentCount()");
-		System.out.println("검색데이터 확인:" + pram.toString());
+		System.out.println("검색데이터 확인:" + param.toString());
 		
-		int count  = service.currentCount(pram);
+		int count  = service.currentCount(param);
 		System.out.println("현재 오픈된 총 전시회 수 : " + count);
 
 		int pagenum = count/10;

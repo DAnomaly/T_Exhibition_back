@@ -31,7 +31,7 @@ public class ExhibitionService {
 	@Autowired
 	ExhibitionDAO dao;
 
-	// 전시회 목록 검색
+	/** 날짜, 제목에 대해서 모든 전시회를 검색합니다. */
 	public Map<String, Object> selectExhibition(Map<String, Object> paramMap) {
 		// Get Parameters
 		Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -40,7 +40,7 @@ public class ExhibitionService {
 		return resultMap;
 	}
 
-	// 전시회 추가
+	/** 전시회를 추가합니다. */
 	public String addExhibition(Map<String, Object> paramMap) {
 		
 		// Get now
@@ -99,7 +99,7 @@ public class ExhibitionService {
 		return returnSb.toString();
 	}
 
-	// 전시회 내용 변경
+	/** 전시회 내용을 변경합니다. */
 	public Map<String, Object> editExhibition(Map<String, Object> paramMap) {
 		
 		Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -113,7 +113,7 @@ public class ExhibitionService {
 		return resultMap;
 	}
 
-	// 전시회 이미지 변경
+	/** 전시회의 대표이미지를 변경하거나 추가합니다. */
 	public Map<String, Object> changeExhibitionImage(Map<String, Object> paramMap) {
 		// Get Parameter
 		String exhibitionNo = (String)paramMap.get("exhibitionNo");
@@ -186,11 +186,8 @@ public class ExhibitionService {
 
 	/**
 	 * <b>전시회 작품 조회</b><br/>
-	 * status의 값이 'true'이면 전시회에 등록된 작품들을 조회
+	 * status의 값이 'true'이면 전시회에 등록된 작품들을 조회하고
 	 * 아니면 해당 작가의 해당 전시회에 등록되지 않은 작품들을 조회한다.
-	 * 
-	 * @param paramMap : 파라미터Map
-	 * @return 응답Map
 	 */
 	public Map<String, Object> artworkList(Map<String, Object> paramMap) {
 		// Get Parameters
@@ -229,32 +226,37 @@ public class ExhibitionService {
 		return resultMap;
 	}
 	
+	/** 전시회 정보 가져오기 */
 	public ExhibitionDTO exhibitionInfo(String exhibitionNo) {
 		return dao.exhibitionInfo(exhibitionNo);
 	}
 	
+	/** 해당 검색&페이지에 대한 오픈된 전시회 목록을 불러옵니다. */
 	public List<ExhibitionDTO> crrentList(PagingParam dto) {
 		return dao.crrentList(dto);
 	}
 	
+	/** 해당 검색 결과에 대한 오픈된 전시회 개수를 가져옵니다. */
 	public int  currentCount(PagingParam pram) {
 		return dao.currentCount(pram);
 	}
 	
+	/** 해당 검색&페이지에 대한 전시 대기중인 전시회 목록을 가져옵니다. */
 	public List<ExhibitionDTO> pastList(PagingParam dto) {
 		return dao.pastList(dto);
 	}
 	
+	/** 해당 검색&페이지에 대한 전시 대기중인 전시회 개수를 가져옵니다. */
 	public int  pastCount(PagingParam pram) {
 		return dao.pastCount(pram);
 	}
 	
-	
+	/** 해당 전시회의 작품들을 가져옵니다. */
 	public List<ArtworkDTO> exArtwowrk(String exhibitionNo) {
 		return dao.exArtwowrk(exhibitionNo);
 	}
 
-	/** 전시회에 작품을 추가한다 */
+	/** 전시회에 작품을 추가합니다. */
 	public Map<String, Object> addArtworks(Map<String, Object> paramMap) {
 		// Get Parameters
 		String exhibitionNo = (String)paramMap.get("exhibitionNo");
@@ -308,7 +310,7 @@ public class ExhibitionService {
 	}
 
 	
-	/** 전시회에 작품을 제거한다 */
+	/** 전시회에 등록된 작품을 제외합니다. */
 	public Map<String, Object> removeArtworks(Map<String, Object> paramMap) {
 		// Get Parameters
 		String exhibitionNo = (String)paramMap.get("exhibitionNo");
@@ -340,7 +342,7 @@ public class ExhibitionService {
 		return resultMap;
 	}
 
-	/** 전시회 작품 순서를 변경합니다 */
+	/** 전시회 작품 순서를 변경합니다. */
 	public Map<String, Object> replaceOrder(Map<String, Object> paramMap) {
 		// Log
 		System.out.println("ExhibitionService:replaceOrder()");
