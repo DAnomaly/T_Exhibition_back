@@ -28,6 +28,8 @@ public class ArtistService {
 	@Autowired
 	private ArtistDAO dao;
 	
+	private String frontPath = ExhibitionConfig.ASSETS_PATH + "/profiles";
+	
 	public String insert(Map<String, Object> paramMap){
 		
 		StringBuilder returnMessage = new StringBuilder();
@@ -35,7 +37,7 @@ public class ArtistService {
 		
 		// 폴더생성
 		DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyy/MM");
-		String folderPath = ExhibitionConfig.PROFILE_PATH + "/" + date.format(formatter1);
+		String folderPath = frontPath + "/" + date.format(formatter1);
 		File folder = new File(folderPath);
 		if(!folder.exists()) folder.mkdirs();
 		
@@ -164,7 +166,7 @@ public class ArtistService {
 		if(profile.getSize() > 0) {
 			// 폴더생성
 			DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyy/MM");
-			String folderPath = ExhibitionConfig.PROFILE_PATH + "/" + date.format(formatter1);
+			String folderPath = frontPath + "/" + date.format(formatter1);
 			File folder = new File(folderPath);
 			if(!folder.exists()) folder.mkdirs();
 		
