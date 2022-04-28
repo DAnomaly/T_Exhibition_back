@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,7 +30,7 @@ public class ExhibitionController {
 
 	private ExhibitionService service;
 
-	// 전시회 검색
+	/** 전시회 검색 */
 	@RequestMapping(value={"selectExhibition","selectExhibition.do"})
 	public Map<String, Object> selectExhibition(String title, @DateTimeFormat(pattern="yyyy-MM-dd") Date toDate, @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
@@ -42,7 +41,7 @@ public class ExhibitionController {
 		return service.selectExhibition(paramMap);
 	}
 	
-	// 전시회 추가
+	/** 전시회 추가 */
 	@SuppressWarnings("deprecation")
 	@RequestMapping(value={"addExhibition","addExhibition.do"})
 	public String addExhibition(ExhibitionDTO dto, @DateTimeFormat(pattern="yyyy-MM-dd") Date sDate, int sHours, int sMins, String artworks) {
@@ -56,7 +55,7 @@ public class ExhibitionController {
 		return service.addExhibition(paramMap);
 	}
 
-	// 전시회 수정
+	/** 전시회 수정 */
 	@SuppressWarnings("deprecation")
 	@PostMapping(value={"editExhibition","editExhibition.do"})
 	public Map<String, Object> editExhibition(ExhibitionDTO dto, @DateTimeFormat(pattern="yyyy-MM-dd") Date sDate, int sHours, int sMins, String statusSelect) {
@@ -81,7 +80,7 @@ public class ExhibitionController {
 		return service.editExhibition(paramMap);
 	}
 	
-	// 전시회 대표 이미지 수정
+	/** 전시회 대표 이미지 수정 */
 	@PostMapping(value={"changeExhibitionImage","changeExhibitionImage.do"})
 	public Map<String, Object> changeExhibitionImage(String exhibitionNo, MultipartFile mainImageName) {
 		
@@ -92,9 +91,9 @@ public class ExhibitionController {
 		return service.changeExhibitionImage(paramMap);
 	}
 	
-	/*
-	 * 전시회 작품 조회
-	 * status == 'true'이면 전시회에 등록된 작품들을 조회
+	/**
+	 * 전시회 작품 조회 <br/>
+	 * status == 'true'이면 전시회에 등록된 작품들을 조회하고
 	 * 아니면 해당 작가의 해당 전시회에 등록되지 않은 작품들을 조회한다.
 	 */
 	@GetMapping(value= {"artworkList","artworkList.do"})
@@ -108,6 +107,9 @@ public class ExhibitionController {
 		return service.artworkList(paramMap);
 	}
 	
+	/**
+	 * 전시회 정보를 가져옵니다. 
+	 */
 	@RequestMapping(value={"exhibitionInfo","exhibitionInfo.do"})
 	public ExhibitionDTO exhibitionInfo(String exhibitionNo) {
 		
@@ -117,6 +119,10 @@ public class ExhibitionController {
 		return dto;
 	}
 	
+	
+	/**
+	 * 해당 검색&페이지에 대한 오픈된 전시회 목록을 불러옵니다. 
+	 */
 	@RequestMapping(value={"crrentList","crrentList.do"})
 	public List<ExhibitionDTO> crrentList(PagingParam dto) {
 		
@@ -137,12 +143,15 @@ public class ExhibitionController {
 		return List;
 	}
 	
+	/**
+	 * 오픈한 전시회 개수를 파악하여 전체 페이지수를 번환합니다. 
+	 */
 	@GetMapping(value={"currentCount","currentCount.do"})
-	public int currentCount(PagingParam pram) {
+	public int currentCount(PagingParam param) {
 		System.out.println("ExhibitionController currentCount()");
-		System.out.println("검색데이터 확인:" + pram.toString());
+		System.out.println("검색데이터 확인:" + param.toString());
 		
-		int count  = service.currentCount(pram);
+		int count  = service.currentCount(param);
 		System.out.println("현재 오픈된 총 전시회 수 : " + count);
 
 		int pagenum = count/10;
@@ -154,6 +163,9 @@ public class ExhibitionController {
 
 	}
 	
+	/**
+	 * 해당 검색&페이지에 대한 전시 대기중인 전시회 목록을 가져옵니다. 
+	 */
 	@RequestMapping(value={"pastList","pastList.do"})
 	public List<ExhibitionDTO> pastList(PagingParam dto) {
 		
@@ -174,7 +186,9 @@ public class ExhibitionController {
 		return List;
 	}
 	
-	
+	/**
+	 * 해당 검색에 대한 전시 대기중인 전시회 개수를 가져옵니다.
+	 */
 	@GetMapping(value={"pastCount","pastCount.do"})
 	public int pastCount(PagingParam pram) {
 		System.out.println("ExhibitionController pastCount()");
@@ -192,6 +206,9 @@ public class ExhibitionController {
 		
 	}
 	
+	/**
+	 * 해당 검색&페이지에 대한 전시 대기중인 전시회 목록을 가져옵니다.
+	 */
 	@RequestMapping(value={"exArtwork","exArtwork.do"})
 	public List<ArtworkDTO> exArtwork(String exhibitionNo) {
 		
@@ -201,7 +218,9 @@ public class ExhibitionController {
 		return List;
 	}
 	
-	// 전시회 작품 추가 
+	/**
+	 *  전시회 작품 추가 
+	 */
 	@PostMapping(value= {"addArtworks","addArtworks.do"})
 	public Map<String, Object> addArtworks(String exhibitionNo, String[] artworkNo) {
 		
@@ -212,7 +231,9 @@ public class ExhibitionController {
 		return service.addArtworks(paramMap);
 	}
 	
-	// 전시회 작품 제거
+	/**
+	 *  전시회 작품 제거
+	 */
 	@PostMapping(value= {"removeArtworks","removeArtworks.do"})
 	public Map<String, Object> removeArtworks(String exhibitionNo, String[] artworkNo) {
 	
@@ -223,7 +244,9 @@ public class ExhibitionController {
 		return service.removeArtworks(paramMap);
 	}
 	
-	// 전시회 작품 순서 수정
+	/**
+	 * 전시회 작품 순서 수정
+	 */
 	@PostMapping(value= {"replaceOrder","replaceOrder.do"})
 	public Map<String, Object> replaceOrder(HttpServletRequest request) {
 		
