@@ -14,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.tripleaims.exhibition.dto.ArtworkImageDTO;
 
 /**
- * 작품이미지 생성 클래스
+ * 작품이미지 생성&삭제 클래스
  * 
  * @author 박세환
  */
@@ -144,6 +144,5 @@ public class ArtworkFileUtil {
 		
 		return isDeleteRF && isDeleteTHF1;
 	}
-	
 	
 }

@@ -7,10 +7,8 @@ import java.util.Map;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,7 +26,7 @@ public class ArtworkController {
 
 	private ArtworkService service;
 	
-	@GetMapping("selectArtwork.do")
+	@RequestMapping(value={"selectArtwork","selectArtwork.do"})
 	public Map<String, Object> selectArtwork(String artworkName, String artistName, String artistNo) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("artworkName", artworkName);
@@ -37,12 +35,12 @@ public class ArtworkController {
 		return service.selectAllArtwork(paramMap);
 	}
 	
-	@GetMapping("getAllCategory.do")
+	@RequestMapping(value={"getAllCategory","getAllCategory.do"})
 	public Map<String, Object> selectAll() {
 		return service.selectAllArtworkCategory();
 	}
 	
-	@PostMapping("insertArtwork.do")
+	@PostMapping(value={"insertArtwork","insertArtwork.do"})
 	public String insertArtwork(ArtworkDTO artworkDTO, @DateTimeFormat(pattern="yyyy-MM-dd") java.util.Date madenDate, boolean openY, List<MultipartFile> images) {
 		
 		Map<String, Object> paramMap = new HashMap<String, Object>();
@@ -57,17 +55,17 @@ public class ArtworkController {
 		return service.insertArtwork(paramMap);
 	}
 
-	@PostMapping("selectOneArtwork.do") 
+	@PostMapping(value={"selectOneArtwork","selectOneArtwork.do"}) 
 	public Map<String, Object> selectOneArtwork(String artworkNo) {
 		return service.selectOneArtwork(artworkNo);
 	}
 	
-	@RequestMapping("selectArtworkFromArr.do")
+	@RequestMapping(value={"selectArtworkFromArr","selectArtworkFromArr.do"})
 	public Map<String, Object> selectArtworkFromArr(String[] arr) {
 		return service.selectArtworkFromArr(arr);
 	}
 	
-	@PostMapping("updateArtworkConfig.do")
+	@PostMapping(value={"updateArtworkConfig","updateArtworkConfig.do"})
 	public String updateArtworkConfig(ArtworkDTO artworkDTO, @DateTimeFormat(pattern="yyyy-MM-dd") java.util.Date madenDate, boolean openY) {
 
 		if(madenDate != null) {
@@ -78,15 +76,14 @@ public class ArtworkController {
 		return service.updateArtwork(artworkDTO);
 	}
 	
-	@RequestMapping(value = "/artistArtwork", method = {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value={"artistArtwork","artistArtwork.do"})
 	public List<ArtworkDTO> artistArtwork(String artistNo) {
 		System.out.println("ArtworkController artistArtwork()");
 		List<ArtworkDTO> list = service.artistArtwork(artistNo);
 		return list;
-		
 	}
 	
-	@RequestMapping(value = "/artworkImage", method = {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value={"artworkImage","artworkImage.do"})
 	public List<ArtworkImageDTO> artworkImage(String artworkNo) {
 		System.out.println("ArtworkController artworkImage()");
 		
@@ -95,8 +92,7 @@ public class ArtworkController {
 		
 	}
 	
-	
-	@RequestMapping(value = "/artworkInfo", method = {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value= {"artworkInfo","artworkInfo.do"})
 	public ArtworkDTO artworkInfo(String artworkNo) {
 		System.out.println("ArtworkController artworkInfo()");
 		
