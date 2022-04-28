@@ -413,6 +413,28 @@ public class ExhibitionService {
 		return resultMap;
 		
 	}
+
+	/** 전시회를 삭제 처리합니다 */
+	public Map<String, Object> deleteExhibtion(String exhibitionNo) {
+		
+		// Set ResultMap
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("Connect", true); // Connect 확인
+		resultMap.put("result", false);
+		resultMap.put("message", null);
+		resultMap.put("ExceptionMessage", null);
+		
+		boolean isDelete = dao.deleteExhibition(exhibitionNo);
+		if(isDelete) {
+			resultMap.put("result", true);
+			resultMap.put("message", "성공");
+		} else {
+			resultMap.put("result", false);
+			resultMap.put("message", "삭제처리 실패");
+		}
+		
+		return resultMap;
+	}
 	
 	
 }

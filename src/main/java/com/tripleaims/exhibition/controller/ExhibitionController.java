@@ -257,5 +257,14 @@ public class ExhibitionController {
 		return service.replaceOrder(paramMap);
 	}
 	
+	/**
+	 * 전시회 삭제
+	 */
+	@PostMapping(value= {"deleteExhibtion","deleteExhibtion.do"})
+	public Map<String, Object> deleteExhibtion(String exhibitionNo) {
+		
+		return service.deleteExhibtion(exhibitionNo);
+	}
+	
 	
 }

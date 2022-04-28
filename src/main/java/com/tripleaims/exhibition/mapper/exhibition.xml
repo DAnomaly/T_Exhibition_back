@@ -55,13 +55,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		 WHERE EXHIBITION_NO = #{param2}
 	</update>
 
-	<select id="exhibitionInfo"  parameterType="java.lang.String" resultType="com.tripleaims.exhibition.dto.ExhibitionDTO">
+	<select id="exhibitionInfo"  parameterType="java.lang.String" resultType="ExhibitionDTO">
 		SELECT *
 		FROM exhibition_view
 		WHERE EXHIBITION_NO=#{exhibitionNo}
 	</select>
 	
-	<select id="crrentList"  parameterType="com.tripleaims.exhibition.dto.PagingParam" resultType="com.tripleaims.exhibition.dto.ExhibitionDTO">
+	<select id="crrentList"  parameterType="PagingParam" resultType="ExhibitionDTO">
 		SELECT EXHIBITION_NO, TITLE, CONTENT, ARTIST_NO, START_DATE, OPEN_YN, SHOW_YN, DELETE_YN, REG_DATE, EDIT_DATE, HIT, ARTIST_NAME_KOR
 		FROM (SELECT @ROWNUM:=@ROWNUM+1 RNUM, E.EXHIBITION_NO, E.TITLE, E.CONTENT, E.ARTIST_NO, E.START_DATE, E.OPEN_YN, E.SHOW_YN, E.DELETE_YN, E.REG_DATE, E.EDIT_DATE, E.HIT, E.ARTIST_NAME_KOR
 				FROM exhibition_view E, (SELECT @ROWNUM:=0)R
@@ -73,7 +73,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				   WHERE RNUM<![CDATA[>=]]> ${start} AND RNUM<![CDATA[<=]]>${end}
 	</select>
 
-	<select id="currentCount" parameterType="com.tripleaims.exhibition.dto.PagingParam" resultType="java.lang.Integer">
+	<select id="currentCount" parameterType="PagingParam" resultType="java.lang.Integer">
 		SELECT COUNT(*)
 		FROM  exhibition_view
 		WHERE OPEN_YN = 'Y' AND SHOW_YN = 'Y'	
@@ -82,7 +82,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if> 
 	</select>
 
-	<select id="pastList"  parameterType="com.tripleaims.exhibition.dto.PagingParam" resultType="com.tripleaims.exhibition.dto.ExhibitionDTO">
+	<select id="pastList"  parameterType="PagingParam" resultType="ExhibitionDTO">
 		SELECT EXHIBITION_NO, TITLE, CONTENT, ARTIST_NO, START_DATE, OPEN_YN, SHOW_YN, DELETE_YN, REG_DATE, EDIT_DATE, HIT, ARTIST_NAME_KOR
 		FROM (SELECT @ROWNUM:=@ROWNUM+1 RNUM, E.EXHIBITION_NO, E.TITLE, E.CONTENT, E.ARTIST_NO, E.START_DATE, E.OPEN_YN, E.SHOW_YN, E.DELETE_YN, E.REG_DATE, E.EDIT_DATE, E.HIT, E.ARTIST_NAME_KOR
 				FROM exhibition_view E, (SELECT @ROWNUM:=0)R
@@ -94,7 +94,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				   WHERE RNUM<![CDATA[>=]]> ${start} AND RNUM<![CDATA[<=]]>${end}
 	</select>
 
-	<select id="pastCount" parameterType="com.tripleaims.exhibition.dto.PagingParam" resultType="java.lang.Integer">
+	<select id="pastCount" parameterType="PagingParam" resultType="java.lang.Integer">
 		SELECT COUNT(*)
 		FROM  exhibition_view
 		WHERE OPEN_YN = 'N' AND SHOW_YN = 'Y'	
@@ -103,7 +103,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if> 
 	</select>
 
-	<select id="exArtwowrk" parameterType="java.lang.String" resultType="com.tripleaims.exhibition.dto.ArtworkDTO">
+	<select id="exArtwowrk" parameterType="java.lang.String" resultType="ArtworkDTO">
 		SELECT e.EXHIBITION_NO, e.ARTWORK_NO, e.ORDER_NO, a.TITLE, a.MAIN_THUM1_NAME, a.SELL_VALUE, a.`EXPLAIN`
 		FROM exhibition_artwork e, artwork_view a
 		WHERE e.ARTWORK_NO= a.ARTWORK_NO AND e.EXHIBITION_NO =#{exhibitionNo} AND a.SHOW_YN = 'Y' AND a.DELETE_YN = 'N'
@@ -127,6 +127,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		       (SELECT T2.ARTWORK_NO FROM exhibition_artwork T2 WHERE T2.EXHIBITION_NO = #{param1});
 	</select>
 	
-	
+	<update id="deleteExhibition" parameterType="java.lang.String">
+		UPDATE exhibition 
+		   SET DELETE_YN = 'N', SHOW_YN = 'N', OPEN_YN = 'N'
+		 WHERE EXHIBITION_NO = #{param1}
+	</update>
 	
 </mapper>

@@ -15,11 +15,17 @@ import com.tripleaims.exhibition.dto.PagingParam;
 @Repository
 public interface ExhibitionDAO {
 
+	/** 전시회 검색(제목, 날짜) : 모든 전시회 조회 */
 	public List<ExhibitionDTO> selectExhibition(Map<String, Object> paramMap);
+	/** 총 전시회 개수 */
 	public String selectMaxExhibitionNo();
+	/** 전시회 추가 */
 	public boolean insertExhibition(ExhibitionDTO dto);
+	/** 전시회에서 해당 작품 추가 */
 	public boolean insertExhibitionArtwork(ExhibitionArtworkDTO dto);
+	/** 전시회에서 해당 작품 제거 */
 	public boolean deleteExhibitionArtwork(String exhibitionNo, String artworkNo);
+	/** 해당 전시회 모든 작품 제거 */
 	public boolean deleteAllExhibitionArtwork(String exhibitionNo);
 	public boolean updateExhibition(ExhibitionDTO dto);
 	public boolean updateExhibitionMainImage(String mainImageName, String exhibitionNo);
@@ -34,12 +40,12 @@ public interface ExhibitionDAO {
 	
 	public List<ArtworkDTO> exArtwowrk(String exhibitionNo);
 	
-	// 해당 전시회의 작품목록
+	/** 해당 전시회의 작품목록 */
 	public List<ArtworkDTO> selectExhibitionArtworks(String exhibitionNo, String artistNo);
-	// 해당 작가의 해당 전시회에 등록되지 않은 작품목록
+	/** 해당 작가의 해당 전시회에 등록되지 않은 작품목록 */
 	public List<ArtworkDTO> selectNotExhibitionArtworks(String exhibitionNo, String artistNo);
-	// 전시회에서 작품 제거
-	
+	/** 해당 전시회 삭제 처리 */
+	public boolean deleteExhibition(String exhibitionNo);
 	
 	
 }
